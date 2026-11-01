@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Studio | The Skyn Room</title>
+  <meta name="theme-color" content="#FFFBF0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1B1006" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="studio.css">
+</head>
+<!-- The secret studio: edits the treatment menu and the shop.
+     The key after # in the link is checked by the `admin` Edge Function on
+     every request (supabase/functions/admin). -->
+<body>
+  <header class="bar">
+    <div class="bar__inner">
+      <a class="bar__brand" href="../" target="_blank" rel="noopener" aria-label="Open the website">
+        <picture><source srcset="../assets/img/logo-cream.webp" media="(prefers-color-scheme: dark)"><img src="../assets/img/logo-brown.webp" alt="" width="1600" height="1215"></picture>
+        <span class="bar__title">Studio</span>
+      </a>
+      <nav class="tabs" role="tablist" aria-label="Sections" hidden>
+        <button class="tab" type="button" role="tab" id="tab-menu" aria-controls="panel-menu" aria-selected="true" data-tab="menu">Menu</button>
+        <button class="tab" type="button" role="tab" id="tab-shop" aria-controls="panel-shop" aria-selected="false" data-tab="shop" tabindex="-1">Shop</button>
+        <button class="tab" type="button" role="tab" id="tab-help" aria-controls="panel-help" aria-selected="false" data-tab="help" tabindex="-1">Help</button>
+      </nav>
+      <a class="bar__site" href="../" target="_blank" rel="noopener">View site <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main class="main">
+    <p class="loading" id="loading" role="status">Opening your studio…</p>
+
+    <div class="gate" id="gate" hidden>
+      <h1 class="h1">This page needs your studio link.</h1>
+      <p class="gate__text" id="gate-text">Open the private link you were given for The Skyn Room studio.</p>
+    </div>
+
+    <section class="panel" id="panel-menu" role="tabpanel" aria-labelledby="tab-menu" hidden>
+      <div class="panel__head">
+        <div>
+          <h1 class="h1">Treatment menu</h1>
+          <p class="hint">Changes show on the website as soon as you save.</p>
+        </div>
+        <div class="panel__actions">
+          <button class="btn" type="button" data-new="treatments">+ Treatment</button>
+          <button class="btn btn--ghost" type="button" data-new="categories">+ Category</button>
+        </div>
+      </div>
+      <div id="menu-list"></div>
+    </section>
+
+    <section class="panel" id="panel-shop" role="tabpanel" aria-labelledby="tab-shop" hidden>
+      <div class="panel__head">
+        <div>
+          <h1 class="h1">Shop</h1>
+          <p class="hint">Products appear on the Shop page in this order.</p>
+        </div>
+        <div class="panel__actions">
+          <button class="btn" type="button" data-new="products">+ Product</button>
+        </div>
+      </div>
+      <div id="shop-list"></div>
+    </section>
+
+    <section class="panel help" id="panel-help" role="tabpanel" aria-labelledby="tab-help" hidden>
+      <h1 class="h1">How to use your studio</h1>
+      <p class="lede">Everything you save here shows on theskynroom.com right away. Refresh the website to see it.</p>
+
+      <h2 class="h2">Treatment menu</h2>
+      <ol class="steps">
+        <li><strong>Add a treatment:</strong> tap <em>+ Treatment</em>, fill in the name, category, price and time the same way they appear on Vagaro, then tap <em>Save</em>.</li>
+        <li><strong>Change a treatment:</strong> tap it in the list, edit, and save.</li>
+        <li><strong>Change the order:</strong> use the <span class="key">↑</span> <span class="key">↓</span> arrows. The website follows the same order.</li>
+        <li><strong>Hide without deleting:</strong> open the treatment and switch off <em>Show on website</em>. Useful for seasonal or paused services.</li>
+        <li><strong>Categories</strong> are the headings on the menu, like Facials or Add-ons. Tap <em>+ Category</em> to add one. The arrows next to a category move the whole group. Tap a category name to rename, hide or delete it.</li>
+        <li><strong>Photo cards:</strong> a treatment with a photo and <em>Show as a photo card</em> switched on also appears as a large card on the Treatments page and in the slider on the Home page.</li>
+        <li><strong>Booking link:</strong> leave it empty and the Book button opens your Vagaro menu. To send clients straight to one service, open that service on Vagaro, copy the address from the browser and paste it in.</li>
+      </ol>
+
+      <h2 class="h2">Shop</h2>
+      <ol class="steps">
+        <li><strong>Add a product:</strong> tap <em>+ Product</em>, then add the name, brand, price, a photo and a short description.</li>
+        <li><strong>Buy link:</strong> if the product can be bought online (for example a Vagaro, Stripe or Amazon link), paste the link and the website shows a <em>Buy Now</em> button. Leave it empty and the product shows <em>Available in the studio</em>.</li>
+        <li><strong>Sold out:</strong> switch it on to keep the product on the page, marked as sold out.</li>
+        <li><strong>Category</strong> is optional, for example Cleansers, Serums or SPF. Once two or more are used, the Shop page shows filter buttons.</li>
+      </ol>
+
+      <h2 class="h2">Photos</h2>
+      <p>Any photo from your phone or computer works; it is resized for the website automatically. Portrait photos (taller than wide) fit the cards best, and product photos look best on a plain background.</p>
+
+      <h2 class="h2">Your secret link</h2>
+      <p>This link is the only key to your studio, so keep it private. Anyone who has it can edit your website. Bookmark it or add it to your phone's home screen.</p>
+      <div class="linkbox">
+        <input class="input" id="studio-link" type="text" readonly aria-label="Your studio link">
+        <button class="btn btn--ghost" type="button" id="copy-link">Copy</button>
+      </div>
+      <p class="hint">If you think someone else has your link, make a new one. The old link stops working straight away on every device.</p>
+      <button class="btn btn--ghost" type="button" id="rotate-link">Make a new link</button>
+    </section>
+  </main>
+
+  <dialog class="editor" id="editor" aria-labelledby="editor-title">
+    <form class="editor__form" id="editor-form" novalidate>
+      <header class="editor__head">
+        <h2 class="h2" id="editor-title">Edit</h2>
+        <button class="editor__close" type="button" data-cancel aria-label="Close">Close</button>
+      </header>
+      <div class="editor__body" id="editor-body"></div>
+      <footer class="editor__foot">
+        <p class="editor__error" id="editor-error" role="alert"></p>
+        <div class="editor__buttons">
+          <button class="btn btn--danger" type="button" data-delete>Delete</button>
+          <button class="btn btn--ghost" type="button" data-cancel>Cancel</button>
+          <button class="btn" type="submit" data-save>Save</button>
+        </div>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="studio.js"></script>
+</body>
+</html>

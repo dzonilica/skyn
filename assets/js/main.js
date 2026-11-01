@@ -3,13 +3,16 @@
    Every pinned ("stop scroll") scene runs on desktop and on phones, each
    with its own layout (see the PHONE block at the end of style.css). Pins
    are skipped on very short screens (landscape phones) and entirely when
-   the visitor prefers reduced motion. */
+   the visitor prefers reduced motion.
+   Pages with live content (content.js) render it first, behind the curtain,
+   so the scenes are built on the final page. */
 
-(() => {
+window.__skynReady = true;
+
+(window.__skynContent || Promise.resolve()).then(() => {
   "use strict";
 
   const root = document.documentElement;
-  window.__skynReady = true;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hasGsap = !!(window.gsap && window.ScrollTrigger);
@@ -465,9 +468,9 @@
       );
     });
 
-    // index list: image follows the pointer
+    // menu: a row's photo follows the pointer (rows without one hide it)
     mm.add("(hover: hover) and (pointer: fine) and (min-width: 900px)", () => {
-      const list = $(".tindex__list");
+      const list = $(".tmenu__groups");
       const box = $(".cursor-img");
       if (!list || !box) return;
       const imgs = $$("img", box);
@@ -494,9 +497,9 @@
         gsap.to(box, { autoAlpha: 1, scale: 1, duration: 0.45, ease: "power3.out" });
       };
       const leave = () => gsap.to(box, { autoAlpha: 0, scale: 0.85, duration: 0.4, ease: "power3.out" });
-      const rows = $$(".tindex__row", list);
-      const handlers = rows.map((row, i) => {
-        const h = enter(i);
+      const rows = $$(".tmenu__row", list);
+      const handlers = rows.map((row) => {
+        const h = row.dataset.cursor ? enter(parseInt(row.dataset.cursor, 10)) : leave;
         row.addEventListener("pointerenter", h);
         return h;
       });
@@ -908,4 +911,4 @@
       if (lenisRef) lenisRef.start();
     });
   }
-})();
+});

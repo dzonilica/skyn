@@ -1,0 +1,12 @@
+{
+  "crons": [{ "path": "/api/keepalive", "schedule": "0 12 * * *" }],
+  "headers": [
+    {
+      "source": "/studio/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}

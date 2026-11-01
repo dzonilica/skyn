@@ -1093,6 +1093,10 @@ em,
   font-size: 14px;
   color: var(--muted);
 }
+.tcard .tcard__meta {
+  margin-top: 12px;
+  font-size: 12px;
+}
 .tcard .link-arrow {
   margin-top: 16px;
   align-self: flex-start;
@@ -1338,47 +1342,105 @@ em,
   margin-top: 12px;
 }
 
-.tindex {
+/* the menu: every treatment by category, with time and price
+   (rows come from the studio through content.js) */
+.tmenu {
   position: relative;
 }
-.tindex__list {
-  border-top: 1px solid var(--line);
-}
-.tindex__row {
+.tmenu__head {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
+  grid-template-columns: repeat(12, 1fr);
   gap: 24px;
-  padding-block: clamp(18px, 2.2vw, 30px);
-  border-bottom: 1px solid var(--line);
-  transition: padding 0.6s var(--ease), color 0.4s;
+  align-items: end;
 }
-.tindex__name {
+.tmenu__head .h-section {
+  grid-column: 1 / span 7;
+}
+.tmenu__note {
+  grid-column: 9 / span 4;
+  padding-bottom: 10px;
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 36ch;
+}
+.tmenu__group {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: clamp(64px, 8vw, 128px);
+}
+.tmenu__cat {
+  grid-column: 1 / span 4;
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+  padding-top: 26px;
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(32px, 4.6vw, 70px);
-  line-height: 1;
+  font-size: clamp(32px, 3.4vw, 52px);
+  line-height: 1.05;
   letter-spacing: -0.02em;
-  transition: transform 0.6s var(--ease), font-style 0.3s;
 }
-.tindex__meta {
-  display: flex;
-  align-items: center;
-  gap: 24px;
+.tmenu__list {
+  grid-column: 5 / span 8;
+  border-top: 1px solid var(--line);
+}
+.tmenu__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  padding-block: clamp(22px, 2.4vw, 32px);
+  border-bottom: 1px solid var(--line);
+  transition: color 0.4s;
+}
+.tmenu__badge {
   color: var(--muted);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+.tmenu__name {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(26px, 2.5vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  transition: transform 0.6s var(--ease);
+}
+.tmenu__desc {
+  margin-top: 12px;
+  max-width: 58ch;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.tmenu__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-top: 4px;
   text-align: right;
+  white-space: nowrap;
+}
+.tmenu__price {
+  font-family: var(--serif);
+  font-size: clamp(22px, 1.8vw, 28px);
+  line-height: 1.1;
+}
+.tmenu__time {
+  color: var(--muted);
+}
+.tmenu__meta .tmenu__book {
+  margin-top: 10px;
+  font-size: 13px;
 }
 /* touch screens keep :hover after a tap, so dimming the other rows
    would stick there once the visitor scrolls back up */
 @media (hover: hover) {
-  .tindex__row:hover .tindex__name {
-    transform: translateX(18px);
+  .tmenu__row:hover .tmenu__name {
+    transform: translateX(10px);
     font-style: italic;
   }
-  .tindex__list:hover .tindex__row:not(:hover) {
+  .tmenu__list:hover .tmenu__row:not(:hover) {
     color: var(--muted);
   }
 }
@@ -1784,6 +1846,149 @@ em,
 }
 
 /* =========================================================
+   SHOP
+   ========================================================= */
+
+.shop {
+  padding-top: clamp(24px, 3vw, 48px);
+}
+.shop__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(36px, 4vw, 56px);
+}
+.shop__filters[hidden],
+.shop__grid[hidden],
+.shop__empty[hidden] {
+  display: none;
+}
+.chip {
+  height: 38px;
+  padding-inline: 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.chip:hover {
+  border-color: var(--ink);
+}
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.shop__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 72px 24px;
+}
+.pcard {
+  display: flex;
+  flex-direction: column;
+}
+.pcard[hidden] {
+  display: none;
+}
+.pcard__media {
+  aspect-ratio: 4 / 5;
+}
+.pcard__media img {
+  transition: transform 1.2s var(--ease);
+}
+@media (hover: hover) {
+  .pcard:hover .pcard__media img {
+    transform: scale(1.04);
+  }
+}
+.pcard__initial {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(64px, 7vw, 110px);
+  color: var(--muted);
+}
+.pcard.is-sold-out .pcard__media {
+  opacity: 0.55;
+}
+.pcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: 20px;
+}
+.pcard__brand {
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.pcard__price {
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.2;
+}
+.pcard__desc {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.pcard__action {
+  margin-top: auto;
+  padding-top: 20px;
+}
+.pcard__status {
+  color: var(--muted);
+}
+.shop__empty {
+  max-width: 34em;
+  padding-block: clamp(24px, 4vw, 64px);
+}
+.shop__empty .body {
+  margin-top: 20px;
+}
+.shop__empty .link-arrow {
+  margin-top: 28px;
+}
+
+.shop-how__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+.shop-how__title {
+  grid-column: 1 / span 4;
+}
+.shop-how__steps {
+  grid-column: 6 / span 7;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.shop-how__step {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.shop-how__step p {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.shop-how__step a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =========================================================
    CONTACT
    ========================================================= */
 
@@ -2026,6 +2231,16 @@ em,
     grid-template-columns: repeat(2, 1fr);
     row-gap: 56px;
   }
+  .shop__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .shop-how__title,
+  .shop-how__steps {
+    grid-column: 1 / -1;
+  }
+  .shop-how__steps {
+    margin-top: 40px;
+  }
 }
 
 @media (max-width: 899px) {
@@ -2227,8 +2442,50 @@ em,
   .tintro__note {
     grid-column: 1 / -1;
   }
-  .tindex__meta .tindex__tags {
-    display: none;
+  .tmenu__head .h-section,
+  .tmenu__note,
+  .tmenu__cat,
+  .tmenu__list {
+    grid-column: 1 / -1;
+  }
+  .tmenu__note {
+    padding-bottom: 0;
+  }
+  .tmenu__group {
+    row-gap: 18px;
+  }
+  .tmenu__cat {
+    position: relative;
+    top: auto;
+    padding-top: 0;
+  }
+  /* phone rows: name and description, then time, price and Book on one line */
+  .tmenu__row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .tmenu__meta {
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    padding-top: 0;
+    text-align: left;
+  }
+  .tmenu__meta .tmenu__book {
+    margin: 0 0 0 auto;
+  }
+  .shop__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 16px;
+  }
+  .shop-how__title,
+  .shop-how__steps {
+    grid-column: 1 / -1;
+  }
+  .shop-how__steps {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
   .cursor-img {
     display: none;

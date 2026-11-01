@@ -43,14 +43,16 @@ Dark mode (sistemski): tamno braon pozadina, krem tekst, logo se automatski boji
 - **Ritam:** sekcije 120-200px vertikalno na desktopu, max širina 1440px, margine 36px (mobilni 18px).
 - **Bez:** custom kursora, em-crtica, "scroll" indikatora, lažnih brojki.
 
-## 3. Mapa sajta (5 stranica)
+## 3. Mapa sajta (6 stranica + studio)
 
 ```
 index.html        Home
-treatments.html   Treatment Menu (8 tretmana)
+treatments.html   Treatment Menu (meni po kategorijama + kartice sa slikom)
+shop.html         Shop (proizvodi)
 about.html        About Melissa + The Skyn Room Approach
 results.html      Before & After portfolio
 contact.html      Kontakt forma + FAQ
+studio/           tajni admin panel (vidi odeljak 8)
 ```
 Zajedničko za sve: header (logo levo, meni u sredini, Book Now desno), mobilni meni preko celog ekrana, footer sa velikim naslovom, prelaz između stranica (braon zavesa sa logom).
 
@@ -121,3 +123,21 @@ Za objavu: ceo folder `skynroom/` se kači kao statički sajt (Netlify drag & dr
 - Opisi tretmana su napisani na osnovu naziva i fotografija; Melissa treba da ih potvrdi.
 - Adresa/telefon: nisu javno navedeni na starom sajtu, dodati ako postoje.
 - Slike sa prefiksom Wix stock biblioteke (tekstura kože, kap, spa enterijer, spa soba) proveriti licencu van Wix-a.
+
+## 8. Supabase i studio (admin panel)
+
+Meni tretmana i proizvodi se uređuju bez koda, preko tajnog linka.
+
+**Kako radi**
+- Supabase projekat `skynroom` (`sbtseghoaxglhaaanirs`, us-east-1). Tabele `categories`, `treatments`, `products`; slike u bucket-u `media`. Šema: `supabase/migrations/`.
+- Sajt (`assets/js/content.js`) čita samo vidljive redove javnim (publishable) ključem i iscrta meni, kartice i shop dok zavesa još stoji. `main.js` čeka taj promise pa tek onda pravi GSAP scene.
+- U HTML-u ostaje sačuvana kopija menija (fallback): ako Supabase ne odgovori za 3 s, ostaje ona. Ako se meni mnogo promeni, kopiju treba osvežiti.
+- Studio: `studio/#<ključ>`. Ključ iz linka je lozinka; svaki zahtev ide na Edge Function `admin` (`supabase/functions/admin`), koja proverava sha256 ključa u tabeli `admin_keys` i tek onda menja bazu servisnim ključem. Javni ključ ne može ništa da upiše (RLS + revoke).
+- U studiju (Help → Make a new link) se pravi novi link; stari prestaje da radi odmah.
+- Vercel cron (`vercel.json` → `api/keepalive.js`) jednom dnevno pinguje Supabase da se besplatan projekat ne bi pauzirao posle 7 dana bez saobraćaja.
+
+**Polja tretmana:** naziv, kategorija, cena i trajanje (slobodan tekst, kao na Vageru), opis, slika, "photo card" (velika kartica na Treatments + slajder na Home), kratka linija, "Good for", mala oznaka, poseban Vagaro link (prazno = ceo Vagaro meni), vidljivost.
+
+**Polja proizvoda:** naziv, brend, kategorija (2+ kategorije = filteri na shop strani), cena, opis, slika, link za kupovinu (prazno = "Available in the studio"), sold out, vidljivost.
+
+**Edge Function deploy** (posle izmene `supabase/functions/admin/index.ts`): preko Supabase MCP-a ili `supabase functions deploy admin --no-verify-jwt`.

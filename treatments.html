@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Facials, Chemical Peels &amp; Microneedling | The Skyn Room">
-  <meta property="og:description" content="Explore eight facial treatments with Melissa Wohl. Compare facials, dermaplaning, chemical peels and microneedling, then book online.">
+  <meta property="og:description" content="Explore facial treatments with Melissa Wohl. Compare facials, dermaplaning, chemical peels and microneedling, then book online.">
   <meta property="og:image" content="https://www.theskynroom.com/assets/img/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -30,6 +30,7 @@
       <nav class="nav" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="treatments.html" aria-current="page">Treatments</a>
+        <a href="shop.html">Shop</a>
         <a href="about.html">About</a>
         <a href="results.html">Results</a>
         <a href="contact.html">Contact</a>
@@ -49,6 +50,7 @@
     <nav aria-label="Mobile">
       <a href="index.html">Home</a>
       <a href="treatments.html" aria-current="page">Treatments</a>
+      <a href="shop.html">Shop</a>
       <a href="about.html">About</a>
       <a href="results.html">Results</a>
       <a href="contact.html">Contact</a>
@@ -90,163 +92,237 @@
       </div>
     </section>
 
-    <!-- INDEX: image follows the pointer -->
-    <section class="section tindex tone-sand" aria-label="All treatments">
+    <!-- MENU: every treatment by category. content.js replaces the rows with the
+         live menu from the studio; these are the saved copy. A row's photo follows
+         the pointer (data-cursor = its photo in .cursor-img). -->
+    <section class="section tmenu tone-sand" id="menu" aria-labelledby="menu-title">
       <div class="wrap">
-        <h2 class="visually-hidden">Facials, chemical peels and microneedling</h2>
-        <ul class="tindex__list">
-          <li><a class="tindex__row" href="#signature-custom-facial"><span class="tindex__name">Signature Custom Facial</span><span class="tindex__meta"><span class="tindex__tags">First visits, custom care</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#botox-facial"><span class="tindex__name">Botox Facial</span><span class="tindex__meta"><span class="tindex__tags">Fine lines, firmness</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#ultimate-glass-skin-facial"><span class="tindex__name">Ultimate Glass Skin Facial</span><span class="tindex__meta"><span class="tindex__tags">Dullness, dehydration</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#dermaplane-facial"><span class="tindex__name">Dermaplane Facial</span><span class="tindex__meta"><span class="tindex__tags">Peach fuzz, skin texture</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#rds-chemical-peel"><span class="tindex__name">RDS Chemical Peel</span><span class="tindex__meta"><span class="tindex__tags">Uneven tone, skin texture</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#acne-relief-facial"><span class="tindex__name">Acne Relief Facial</span><span class="tindex__meta"><span class="tindex__tags">Breakouts, oiliness</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#growth-factor-microneedling"><span class="tindex__name">Growth Factor Microneedling</span><span class="tindex__meta"><span class="tindex__tags">Scarring, texture</span><span aria-hidden="true">↓</span></span></a></li>
-          <li><a class="tindex__row" href="#pdrn-microneedling"><span class="tindex__name">PDRN Microneedling</span><span class="tindex__meta"><span class="tindex__tags">Ask about suitability</span><span aria-hidden="true">↓</span></span></a></li>
-        </ul>
+        <div class="tmenu__head">
+          <h2 class="h-section" id="menu-title" data-split>The <em>menu.</em></h2>
+          <p class="tmenu__note" data-reveal>Choose a treatment and book online through Vagaro. New to The Skyn Room? Start with a Signature Custom Facial.</p>
+        </div>
+        <div class="tmenu__groups" data-live="menu">
+          <div class="tmenu__group">
+            <h3 class="tmenu__cat">Facials</h3>
+            <ul class="tmenu__list">
+              <li class="tmenu__row" data-cursor="0">
+                <div class="tmenu__main">
+                  <p class="label tmenu__badge">Start here for your first visit</p>
+                  <h4 class="tmenu__name"><a href="#signature-custom-facial">Signature Custom Facial</a></h4>
+                  <p class="tmenu__desc">Your first appointment includes a consultation, skin assessment and custom facial. Melissa reviews your concerns and skincare routine to plan your treatment.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book Signature Custom Facial">Book <span class="arr">→</span></a>
+                </div>
+              </li>
+              <li class="tmenu__row" data-cursor="1">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#botox-facial">Botox Facial</a></h4>
+                  <p class="tmenu__desc">A facial focused on the appearance of fine lines and skin firmness. Ask Melissa about the products used and the results you can reasonably expect.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book Botox Facial">Book <span class="arr">→</span></a>
+                </div>
+              </li>
+              <li class="tmenu__row" data-cursor="2">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#ultimate-glass-skin-facial">Ultimate Glass Skin Facial</a></h4>
+                  <p class="tmenu__desc">A facial focused on hydration for skin that feels dry or looks dull. The aim is a smoother, more luminous appearance.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book Ultimate Glass Skin Facial">Book <span class="arr">→</span></a>
+                </div>
+              </li>
+              <li class="tmenu__row" data-cursor="3">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#dermaplane-facial">Dermaplane Facial</a></h4>
+                  <p class="tmenu__desc">Dermaplaning removes surface buildup and fine facial hair, also called peach fuzz. This facial focuses on a smoother skin surface for skincare and makeup application.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book Dermaplane Facial">Book <span class="arr">→</span></a>
+                </div>
+              </li>
+              <li class="tmenu__row" data-cursor="4">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#acne-relief-facial">Acne Relief Facial</a></h4>
+                  <p class="tmenu__desc">A facial for acne-prone skin, with a focus on breakouts, congestion and excess oil. Melissa assesses your skin to help you choose appropriate facial care.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book Acne Relief Facial">Book <span class="arr">→</span></a>
+                </div>
+            </li></ul>
+          </div>
+          <div class="tmenu__group">
+            <h3 class="tmenu__cat">Chemical Peels</h3>
+            <ul class="tmenu__list">
+              <li class="tmenu__row" data-cursor="5">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#rds-chemical-peel">RDS Chemical Peel</a></h4>
+                  <p class="tmenu__desc">A chemical peel focused on uneven skin tone and texture. Ask Melissa about suitability, preparation and aftercare before scheduling this treatment.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book RDS Chemical Peel">Book <span class="arr">→</span></a>
+                </div>
+            </li></ul>
+          </div>
+          <div class="tmenu__group">
+            <h3 class="tmenu__cat">Microneedling</h3>
+            <ul class="tmenu__list">
+              <li class="tmenu__row" data-cursor="6">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#growth-factor-microneedling">Growth Factor Microneedling</a></h4>
+                  <p class="tmenu__desc">Considering microneedling for skin texture or the appearance of acne scars? Ask Melissa about the growth factor products used, suitability and aftercare before booking.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book Growth Factor Microneedling">Book <span class="arr">→</span></a>
+                </div>
+              </li>
+              <li class="tmenu__row" data-cursor="7">
+                <div class="tmenu__main">
+                  <h4 class="tmenu__name"><a href="#pdrn-microneedling">PDRN Microneedling</a></h4>
+                  <p class="tmenu__desc">Considering PDRN Microneedling? Ask Melissa how it differs from Growth Factor Microneedling, which products are used and what preparation and aftercare involve.</p>
+                </div>
+                <div class="tmenu__meta">
+                  <a class="link-arrow tmenu__book" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener" aria-label="Book PDRN Microneedling">Book <span class="arr">→</span></a>
+                </div>
+            </li></ul>
+          </div>
+        </div>
       </div>
-      <div class="cursor-img" aria-hidden="true">
-        <img src="assets/img/treat-signature.webp" alt="" width="1050" height="1400" loading="lazy">
-        <img src="assets/img/treat-botox.webp" alt="" width="736" height="917" loading="lazy">
-        <img src="assets/img/treat-glass.webp" alt="" width="1493" height="1600" loading="lazy">
-        <img src="assets/img/treat-dermaplane.webp" alt="" width="1200" height="1200" loading="lazy">
-        <img src="assets/img/treat-rds-peel.webp" alt="" width="1067" height="1400" loading="lazy">
-        <img src="assets/img/treat-acne.webp" alt="" width="616" height="616" loading="lazy">
-        <img src="assets/img/treat-growth-factor.webp" alt="" width="860" height="1500" loading="lazy">
-        <img src="assets/img/treat-pdrn.webp" alt="" width="895" height="1500" loading="lazy">
+      <div class="cursor-img" aria-hidden="true" data-live="cursor">
+        <img src="assets/img/treat-signature.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-botox.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-glass.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-dermaplane.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-acne.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-rds-peel.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-growth-factor.webp" alt="" loading="lazy">
+        <img src="assets/img/treat-pdrn.webp" alt="" loading="lazy">
       </div>
     </section>
 
-    <!-- STACK: each treatment holds at the top, the next slides over it -->
-    <section class="tstack" aria-label="Treatment details">
+    <!-- STACK: treatments shown with a photo; each holds at the top, the next slides over it -->
+    <section class="tstack" aria-label="Treatment details" data-live="stack">
 
-      <article class="tstack__card" id="signature-custom-facial">
-        <div class="tstack__inner tone-sand">
-          <div class="tstack__media"><img src="assets/img/treat-signature.webp" alt="Hydrating jelly mask with botanicals during a facial" width="1050" height="1400" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Start here for your first visit</p>
-            <h2 class="h-section">Signature Custom Facial</h2>
-            <p class="body-serif">Your first appointment includes a consultation, skin assessment and custom facial. Melissa reviews your concerns and skincare routine to plan your treatment.</p>
-            <dl class="tstack__good"><dt>Focus</dt><dd>First visits, skin assessment, ongoing facial care</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        <article class="tstack__card" id="signature-custom-facial">
+          <div class="tstack__inner tone-sand">
+            <div class="tstack__media"><img src="assets/img/treat-signature.webp" alt="Signature Custom Facial" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Start here for your first visit</p>
+              <h2 class="h-section">Signature Custom Facial</h2>
+              <p class="body-serif">Your first appointment includes a consultation, skin assessment and custom facial. Melissa reviews your concerns and skincare routine to plan your treatment.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>First visits, skin assessment, ongoing facial care</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="botox-facial">
-        <div class="tstack__inner tone-invert">
-          <div class="tstack__media"><img src="assets/img/treat-botox.webp" alt="Treatment mask applied with fan brushes during a Botox Facial" width="736" height="917" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Facial</p>
-            <h2 class="h-section">Botox Facial</h2>
-            <p class="body-serif">A facial focused on the appearance of fine lines and skin firmness. Ask Melissa about the products used and the results you can reasonably expect.</p>
-            <dl class="tstack__good"><dt>Focus</dt><dd>Fine lines and skin firmness</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="botox-facial">
+          <div class="tstack__inner tone-invert">
+            <div class="tstack__media"><img src="assets/img/treat-botox.webp" alt="Botox Facial" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Facials</p>
+              <h2 class="h-section">Botox Facial</h2>
+              <p class="body-serif">A facial focused on the appearance of fine lines and skin firmness. Ask Melissa about the products used and the results you can reasonably expect.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>Fine lines and skin firmness</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="ultimate-glass-skin-facial">
-        <div class="tstack__inner tone-taupe">
-          <div class="tstack__media"><img src="assets/img/treat-glass.webp" alt="Client relaxing with radiant, hydrated skin after a facial" width="1493" height="1600" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Facial</p>
-            <h2 class="h-section">Ultimate Glass Skin Facial</h2>
-            <p class="body-serif">A facial focused on hydration for skin that feels dry or looks dull. The aim is a smoother, more luminous appearance.</p>
-            <dl class="tstack__good"><dt>Focus</dt><dd>Dehydration and dull-looking skin</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="ultimate-glass-skin-facial">
+          <div class="tstack__inner tone-taupe">
+            <div class="tstack__media"><img src="assets/img/treat-glass.webp" alt="Ultimate Glass Skin Facial" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Facials</p>
+              <h2 class="h-section">Ultimate Glass Skin Facial</h2>
+              <p class="body-serif">A facial focused on hydration for skin that feels dry or looks dull. The aim is a smoother, more luminous appearance.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>Dehydration and dull-looking skin</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="dermaplane-facial">
-        <div class="tstack__inner tone-sand">
-          <div class="tstack__media"><img src="assets/img/treat-dermaplane.webp" alt="Dermaplaning with a precision blade on the cheek" width="1200" height="1200" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Facial</p>
-            <h2 class="h-section">Dermaplane Facial</h2>
-            <p class="body-serif">Dermaplaning removes surface buildup and fine facial hair, also called peach fuzz. This facial focuses on a smoother skin surface for skincare and makeup application.</p>
-            <dl class="tstack__good"><dt>Focus</dt><dd>Peach fuzz, rough texture, makeup application</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="dermaplane-facial">
+          <div class="tstack__inner tone-sand">
+            <div class="tstack__media"><img src="assets/img/treat-dermaplane.webp" alt="Dermaplane Facial" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Facials</p>
+              <h2 class="h-section">Dermaplane Facial</h2>
+              <p class="body-serif">Dermaplaning removes surface buildup and fine facial hair, also called peach fuzz. This facial focuses on a smoother skin surface for skincare and makeup application.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>Peach fuzz, rough texture, makeup application</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="rds-chemical-peel">
-        <div class="tstack__inner tone-invert">
-          <div class="tstack__media"><img src="assets/img/treat-rds-peel.webp" alt="RDS peel products arranged on a white tray" width="1067" height="1400" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Chemical peel</p>
-            <h2 class="h-section">RDS Chemical Peel</h2>
-            <p class="body-serif">A chemical peel focused on uneven skin tone and texture. Ask Melissa about suitability, preparation and aftercare before scheduling this treatment.</p>
-            <dl class="tstack__good"><dt>Focus</dt><dd>Uneven skin tone and texture</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="acne-relief-facial">
+          <div class="tstack__inner tone-invert">
+            <div class="tstack__media"><img src="assets/img/treat-acne.webp" alt="Acne Relief Facial" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Facials</p>
+              <h2 class="h-section">Acne Relief Facial</h2>
+              <p class="body-serif">A facial for acne-prone skin, with a focus on breakouts, congestion and excess oil. Melissa assesses your skin to help you choose appropriate facial care.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>Breakouts, congestion, oily skin</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="acne-relief-facial">
-        <div class="tstack__inner tone-taupe">
-          <div class="tstack__media"><img src="assets/img/treat-acne.webp" alt="High frequency treatment over gauze during an Acne Relief Facial" width="616" height="616" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Facial</p>
-            <h2 class="h-section">Acne Relief Facial</h2>
-            <p class="body-serif">A facial for acne-prone skin, with a focus on breakouts, congestion and excess oil. Melissa assesses your skin to help you choose appropriate facial care.</p>
-            <dl class="tstack__good"><dt>Focus</dt><dd>Breakouts, congestion, oily skin</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="rds-chemical-peel">
+          <div class="tstack__inner tone-taupe">
+            <div class="tstack__media"><img src="assets/img/treat-rds-peel.webp" alt="RDS Chemical Peel" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Chemical Peels</p>
+              <h2 class="h-section">RDS Chemical Peel</h2>
+              <p class="body-serif">A chemical peel focused on uneven skin tone and texture. Ask Melissa about suitability, preparation and aftercare before scheduling this treatment.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>Uneven skin tone and texture</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="growth-factor-microneedling">
-        <div class="tstack__inner tone-sand">
-          <div class="tstack__media"><img src="assets/img/treat-growth-factor.webp" alt="Growth factor serums and microneedling tools prepared for treatment" width="860" height="1500" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Microneedling</p>
-            <h2 class="h-section">Growth Factor Microneedling</h2>
-            <p class="body-serif">Considering microneedling for skin texture or the appearance of acne scars? Ask Melissa about the growth factor products used, suitability and aftercare before booking.</p>
-            <dl class="tstack__good"><dt>Discuss with Melissa</dt><dd>Skin texture, acne scarring, treatment goals</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="growth-factor-microneedling">
+          <div class="tstack__inner tone-sand">
+            <div class="tstack__media"><img src="assets/img/treat-growth-factor.webp" alt="Growth Factor Microneedling" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Microneedling</p>
+              <h2 class="h-section">Growth Factor Microneedling</h2>
+              <p class="body-serif">Considering microneedling for skin texture or the appearance of acne scars? Ask Melissa about the growth factor products used, suitability and aftercare before booking.</p>
+              <dl class="tstack__good"><dt>Good for</dt><dd>Skin texture, acne scarring</dd></dl>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-
-      <article class="tstack__card" id="pdrn-microneedling">
-        <div class="tstack__inner tone-invert">
-          <div class="tstack__media"><img src="assets/img/treat-pdrn.webp" alt="Vial of PDRN serum held up in the treatment room" width="895" height="1500" loading="lazy"></div>
-          <div class="tstack__body">
-            <p class="label">Microneedling</p>
-            <h2 class="h-section">PDRN Microneedling</h2>
-            <p class="body-serif">Considering PDRN Microneedling? Ask Melissa how it differs from Growth Factor Microneedling, which products are used and what preparation and aftercare involve.</p>
-            <dl class="tstack__good"><dt>Before booking</dt><dd>Treatment suitability, product details, aftercare</dd></dl>
-            <div class="tstack__actions">
-              <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
-              <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+        </article>
+        <article class="tstack__card" id="pdrn-microneedling">
+          <div class="tstack__inner tone-invert">
+            <div class="tstack__media"><img src="assets/img/treat-pdrn.webp" alt="PDRN Microneedling" loading="lazy"></div>
+            <div class="tstack__body">
+              <p class="label">Microneedling</p>
+              <h2 class="h-section">PDRN Microneedling</h2>
+              <p class="body-serif">Considering PDRN Microneedling? Ask Melissa how it differs from Growth Factor Microneedling, which products are used and what preparation and aftercare involve.</p>
+              <div class="tstack__actions">
+                <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
+                <a class="link-arrow" href="contact.html">Ask a Question <span class="arr">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
 
     </section>
 
@@ -276,6 +352,7 @@
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="treatments.html">Treatments</a></li>
+            <li><a href="shop.html">Shop</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="results.html">Results</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -306,6 +383,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/SplitText.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/js/content.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
