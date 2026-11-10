@@ -54,10 +54,26 @@ const SCHEMA: Record<string, Record<string, [Kind, number?]>> = {
     sold_out: ["bool"],
     visible: ["bool"],
   },
+  results: {
+    title: ["text", 120],
+    treatment: ["text", 80],
+    image_url: ["image", 500],
+    home: ["bool"],
+    visible: ["bool"],
+  },
 };
 // the column that groups rows for ordering (new rows go to the end of their group)
-const GROUP: Record<string, string | null> = { categories: null, treatments: "category_id", products: null };
-const REQUIRED = ["name"];
+const GROUP: Record<string, string | null> = { categories: null, treatments: "category_id", products: null, results: null };
+// the column a new row can't do without, and what to tell the studio
+const REQUIRED: Record<string, [string, string]> = {
+  categories: ["name", "Give it a name first."],
+  treatments: ["name", "Give it a name first."],
+  products: ["name", "Give it a name first."],
+  results: ["image_url", "Add a photo first."],
+};
+// site text: keys match data-edit="..." on the pages
+const TEXT_KEY = /^[a-z0-9][a-z0-9._-]{0,79}$/;
+const TEXT_MAX = 4000;
 
 class Bad extends Error {}
 
@@ -117,14 +133,16 @@ async function nextSort(t: string, group: string | null, value: unknown) {
 }
 
 async function load() {
-  const [c, t, p] = await Promise.all([
+  const [c, t, p, r, s] = await Promise.all([
     db.from("categories").select("*").order("sort").order("created_at"),
     db.from("treatments").select("*").order("sort").order("created_at"),
     db.from("products").select("*").order("sort").order("created_at"),
+    db.from("results").select("*").order("sort").order("created_at"),
+    db.from("site_content").select("key,value"),
   ]);
-  const err = c.error || t.error || p.error;
+  const err = c.error || t.error || p.error || r.error || s.error;
   if (err) throw err;
-  return { categories: c.data, treatments: t.data, products: p.data };
+  return { categories: c.data, treatments: t.data, products: p.data, results: r.data, site: s.data };
 }
 
 async function save(t: string, input: Record<string, unknown>) {
@@ -132,15 +150,16 @@ async function save(t: string, input: Record<string, unknown>) {
   const id = typeof input.id === "string" && UUID.test(input.id) ? input.id : null;
   const group = GROUP[t];
 
+  const [need, needMsg] = REQUIRED[t];
   if (!id) {
-    for (const r of REQUIRED) if (!row[r]) throw new Bad("Give it a name first.");
+    if (!row[need]) throw new Bad(needMsg);
     row.sort = await nextSort(t, group, group ? row[group] : null);
     const { data, error } = await db.from(t).insert(row).select().single();
     if (error) throw error;
     return data;
   }
 
-  if ("name" in row && !row.name) throw new Bad("The name can't be empty.");
+  if (need in row && !row[need]) throw new Bad(needMsg);
   const { data: cur } = await db.from(t).select("*").eq("id", id).single();
   if (group && group in row && cur && cur[group] !== row[group]) {
     // moved to another group: append it there
@@ -160,15 +179,17 @@ async function remove(t: string, id: unknown) {
   return { id };
 }
 
-// delete an uploaded photo once no treatment or product uses it any more
+// delete an uploaded photo once nothing on the site uses it any more
 // (the site's own photos in assets/img are never touched)
 async function dropImage(url: unknown) {
   if (typeof url !== "string" || !url.startsWith(MEDIA_PREFIX)) return;
-  const [t, p] = await Promise.all([
+  const uses = await Promise.all([
     db.from("treatments").select("id").eq("image_url", url).limit(1),
     db.from("products").select("id").eq("image_url", url).limit(1),
+    db.from("results").select("id").eq("image_url", url).limit(1),
+    db.from("site_content").select("key").eq("value", url).limit(1),
   ]);
-  if (t.error || p.error || t.data.length || p.data.length) return;
+  if (uses.some((u) => u.error || u.data.length)) return;
   const { error } = await db.storage.from(BUCKET).remove([url.slice(MEDIA_PREFIX.length)]);
   if (error) console.error("photo cleanup", error);
 }
@@ -189,11 +210,50 @@ async function upload(form: FormData) {
   const ext = IMAGE_TYPES[file.type];
   if (!ext) throw new Bad("Use a JPG, PNG or WebP photo.");
   if (file.size > MAX_UPLOAD) throw new Bad("That photo is too large (max 8 MB).");
-  const folder = form.get("folder") === "products" ? "products" : "treatments";
+  const asked = form.get("folder");
+  const folder = ["products", "results", "site"].includes(asked as string) ? (asked as string) : "treatments";
   const path = `${folder}/${crypto.randomUUID()}.${ext}`;
   const { error } = await db.storage.from(BUCKET).upload(path, file, { contentType: file.type, cacheControl: "31536000" });
   if (error) throw error;
   return { url: db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl };
+}
+
+// site text and photos: a list of { key, value }. A string (even an empty one,
+// which hides the element) is saved; null goes back to the text in the HTML.
+async function saveText(items: unknown) {
+  if (!Array.isArray(items) || !items.length || items.length > 200) throw new Bad("Nothing to save.");
+  const rows: { key: string; value: string }[] = [];
+  const back: string[] = [];
+  for (const it of items) {
+    const k = it && typeof it === "object" ? (it as Record<string, unknown>).key : null;
+    const v = it && typeof it === "object" ? (it as Record<string, unknown>).value : undefined;
+    if (typeof k !== "string" || !TEXT_KEY.test(k)) throw new Bad("Could not save that text.");
+    if (v === null) {
+      back.push(k);
+      continue;
+    }
+    if (typeof v !== "string") throw new Bad("Could not save that text.");
+    const s = v.replace(/\r\n/g, "\n").trim();
+    if (s.length > TEXT_MAX) throw new Bad(`That text is too long (max ${TEXT_MAX} characters).`);
+    rows.push({ key: k, value: s });
+  }
+  const keys = [...rows.map((r) => r.key), ...back];
+  const { data: before, error: readErr } = await db.from("site_content").select("key,value").in("key", keys);
+  if (readErr) throw readErr;
+  if (rows.length) {
+    const { error } = await db.from("site_content").upsert(rows, { onConflict: "key" });
+    if (error) throw error;
+  }
+  if (back.length) {
+    const { error } = await db.from("site_content").delete().in("key", back);
+    if (error) throw error;
+  }
+  // photos that were replaced or reset
+  const now = new Map(rows.map((r) => [r.key, r.value]));
+  for (const b of before ?? []) if (now.get(b.key) !== b.value) await dropImage(b.value);
+  const { data, error } = await db.from("site_content").select("key,value");
+  if (error) throw error;
+  return { site: data };
 }
 
 // replace every studio key with a new one: the old link stops working
@@ -229,6 +289,8 @@ Deno.serve(async (req) => {
         return json(await save(table(body.table), body.row ?? {}));
       case "delete":
         return json(await remove(table(body.table), body.id));
+      case "text":
+        return json(await saveText(body.items));
       case "reorder":
         return json(await reorder(table(body.table), body.ids));
       case "rotate":

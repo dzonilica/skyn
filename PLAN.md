@@ -43,12 +43,13 @@ Dark mode (sistemski): tamno braon pozadina, krem tekst, logo se automatski boji
 - **Ritam:** sekcije 120-200px vertikalno na desktopu, max širina 1440px, margine 36px (mobilni 18px).
 - **Bez:** custom kursora, em-crtica, "scroll" indikatora, lažnih brojki.
 
-## 3. Mapa sajta (6 stranica + studio)
+## 3. Mapa sajta (7 stranica + studio)
 
 ```
 index.html        Home
 treatments.html   Treatment Menu (meni po kategorijama + kartice sa slikom)
 shop.html         Shop (proizvodi)
+product.html      Stranica jednog proizvoda (product.html?p=<slug>)
 about.html        About Melissa + The Skyn Room Approach
 results.html      Before & After portfolio
 contact.html      Kontakt forma + FAQ
@@ -126,11 +127,11 @@ Za objavu: ceo folder `skynroom/` se kači kao statički sajt (Netlify drag & dr
 
 ## 8. Supabase i studio (admin panel)
 
-Meni tretmana i proizvodi se uređuju bez koda, preko tajnog linka.
+Meni tretmana, proizvodi, before & after fotografije i tekstovi i slike na svim stranicama se uređuju bez koda, preko tajnog linka.
 
 **Kako radi**
-- Supabase projekat `skynroom` (`sbtseghoaxglhaaanirs`, us-east-1). Tabele `categories`, `treatments`, `products`; slike u bucket-u `media`. Šema: `supabase/migrations/`.
-- Sajt (`assets/js/content.js`) čita samo vidljive redove javnim (publishable) ključem i iscrta meni, kartice i shop dok zavesa još stoji. `main.js` čeka taj promise pa tek onda pravi GSAP scene.
+- Supabase projekat `skynroom` (`sbtseghoaxglhaaanirs`, us-east-1). Tabele `categories`, `treatments`, `products`, `results` (before & after), `site_content` (tekstovi i slike stranica); slike u bucket-u `media`. Šema: `supabase/migrations/`.
+- Sajt (`assets/js/content.js`, na svim stranicama) čita samo vidljive redove javnim (publishable) ključem i iscrta meni, kartice, shop, stranicu proizvoda, before & after i izmenjene tekstove dok zavesa još stoji. `main.js` čeka taj promise pa tek onda pravi GSAP scene.
 - U HTML-u ostaje sačuvana kopija menija (fallback): ako Supabase ne odgovori za 3 s, ostaje ona. Ako se meni mnogo promeni, kopiju treba osvežiti.
 - Studio: `studio/#<ključ>`. Ključ iz linka je lozinka; svaki zahtev ide na Edge Function `admin` (`supabase/functions/admin`), koja proverava sha256 ključa u tabeli `admin_keys` i tek onda menja bazu servisnim ključem. Javni ključ ne može ništa da upiše (RLS + revoke).
 - U studiju (Help → Make a new link) se pravi novi link; stari prestaje da radi odmah.
@@ -139,5 +140,11 @@ Meni tretmana i proizvodi se uređuju bez koda, preko tajnog linka.
 **Polja tretmana:** naziv, kategorija, cena i trajanje (slobodan tekst, kao na Vageru), opis, slika, "photo card" (velika kartica na Treatments + slajder na Home), kratka linija, "Good for", mala oznaka, poseban Vagaro link (prazno = ceo Vagaro meni), vidljivost.
 
 **Polja proizvoda:** naziv, brend, kategorija (2+ kategorije = filteri na shop strani), cena, opis, slika, link za kupovinu (prazno = "Available in the studio"), sold out, vidljivost.
+
+**Tekstovi i slike stranica (tab Pages):** svaki element koji može da se menja ima `data-edit="kljuc"` u HTML-u (slika: na `<img>`; hero pozadina: `data-edit-bg`), a sekcija `data-edit-section="Naziv"`; opcioni `data-label` je naziv polja u studiju. Studio sam učita HTML stranice i iz njega pravi polja, pa je tekst u HTML-u "original". U `site_content` se čuvaju samo izmene (prazan tekst = element se sakrije). Format: `*kurziv*`, `[tekst](link)`, novi red = `<br>`. Novi tekst na sajtu postaje izmenjiv samo dodavanjem `data-edit`; ključ se posle ne menja (izmene su vezane za njega). Hero naslov "Custom facials." namerno nije izmenjiv (raspored je složen za te reči).
+
+**Before & after (tab Results):** prvih 6 vidljivih fotografija čini "špil" na Results strani, ostale idu u mrežu ispod; sa manje od 6 nema špila, samo mreža. "Show on the Home page" (najviše 3) bira fotografije za početnu.
+
+**Proizvodi:** kartica u shopu pokazuje prvu rečenicu opisa (najviše 3 reda) i "View More"; ceo opis, Buy Now i još do 4 proizvoda su na `product.html?p=<slug>`. Slug se pravi iz imena pri dodavanju i ne menja se.
 
 **Edge Function deploy** (posle izmene `supabase/functions/admin/index.ts`): preko Supabase MCP-a ili `supabase functions deploy admin --no-verify-jwt`.

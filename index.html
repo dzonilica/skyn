@@ -92,7 +92,7 @@
     <!-- HERO: the photo is cut into strips that sit out of register;
          while the hero is pinned, scrolling brings them back into line.
          JS clones the single strip below into 5 (phone) or 7 (desktop). -->
-    <section class="hero has-ripple" aria-label="Introduction">
+    <section class="hero has-ripple" aria-label="Introduction" data-edit-section="Top of the page" data-edit="home.hero.photo" data-edit-bg="assets/img/droplet-skin.webp" data-label="Photo behind the headline">
       <div class="hero__stage">
         <h1 class="hero__title">
           <span class="hero__line hero__line--a"><span>Custom</span></span>
@@ -112,7 +112,7 @@
         </div>
 
         <div class="hero__ui">
-          <p class="label hero__kicker" data-reveal data-delay="0.2">(The Skyn Room)</p>
+          <p class="label hero__kicker" data-reveal data-delay="0.2" data-edit="home.hero.kicker">(The Skyn Room)</p>
           <nav class="hero__index" aria-label="Treatment types" data-reveal data-delay="0.3">
             <p class="label">(Treatments)</p>
             <a href="treatments.html#signature-custom-facial">Custom facials</a>
@@ -120,87 +120,87 @@
             <a href="treatments.html#rds-chemical-peel">Chemical peels</a>
             <a href="treatments.html#growth-factor-microneedling">Microneedling</a>
           </nav>
-          <p class="label hero__fig">(Fig. 01) Skin, up close</p>
+          <p class="label hero__fig" data-edit="home.hero.fig" data-label="Photo caption">(Fig. 01) Skin, up close</p>
           <div class="hero__foot">
-            <p class="hero__sub" data-reveal data-delay="0.3">Facials, chemical peels and microneedling with esthetician Melissa Wohl. Start with a Signature Custom Facial to discuss your skin and choose your next steps.</p>
+            <p class="hero__sub" data-reveal data-delay="0.3" data-edit="home.hero.text" data-label="Text under the headline">Facials, chemical peels and microneedling with esthetician Melissa Wohl. Start with a Signature Custom Facial to discuss your skin and choose your next steps.</p>
             <div class="hero__ctas" data-reveal data-delay="0.4">
               <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
               <a class="link-arrow" href="treatments.html">View Treatments <span class="arr">→</span></a>
             </div>
           </div>
-          <p class="label hero__sign" data-reveal data-delay="0.45"><span class="hero__sign-name">Melissa Wohl</span> <span>Esthetician / Est. 2025</span></p>
+          <p class="label hero__sign" data-reveal data-delay="0.45"><span class="hero__sign-name" data-edit="home.hero.sign-name" data-label="Signature name">Melissa Wohl</span> <span data-edit="home.hero.sign-line" data-label="Signature line">Esthetician / Est. 2025</span></p>
         </div>
       </div>
     </section>
 
     <!-- INTRO -->
-    <section class="section intro" aria-label="About Melissa">
+    <section class="section intro" aria-label="About Melissa" data-edit-section="About Melissa">
       <div class="wrap intro__grid">
         <div class="intro__text">
-          <p class="lead" data-scrub>I’m Melissa Wohl, founder and esthetician at The Skyn Room. I assess your skin, review your current routine and discuss concerns such as breakouts, dryness or uneven texture. Your facial is tailored to what your skin needs.</p>
+          <p class="lead" data-scrub data-edit="home.intro.text">I’m Melissa Wohl, founder and esthetician at The Skyn Room. I assess your skin, review your current routine and discuss concerns such as breakouts, dryness or uneven texture. Your facial is tailored to what your skin needs.</p>
           <a class="link-arrow" href="about.html" data-reveal>About Melissa <span class="arr">→</span></a>
         </div>
         <figure class="intro__media media" data-img-reveal>
-          <img src="assets/img/melissa.webp" alt="Melissa Wohl, esthetician and founder of The Skyn Room" width="1200" height="1800" loading="lazy">
+          <img src="assets/img/melissa.webp" alt="Melissa Wohl, esthetician and founder of The Skyn Room" width="1200" height="1800" loading="lazy" data-edit="home.intro.photo">
         </figure>
       </div>
     </section>
 
     <!-- APPROACH PILLARS -->
-    <section class="section pillars tone-sand has-ripple" aria-label="The Skyn Room approach">
+    <section class="section pillars tone-sand has-ripple" aria-label="The Skyn Room approach" data-edit-section="The Skyn Room approach">
       <div class="wrap">
-        <p class="label pillars__label" data-reveal>(The Skyn Room approach)</p>
+        <p class="label pillars__label" data-reveal data-edit="home.pillars.label">(The Skyn Room approach)</p>
         <div class="pillars__grid">
           <div class="pillar" data-reveal>
-            <h3>Consultation first</h3>
-            <p>We review your skin concerns, current products and treatment history before choosing your facial.</p>
+            <h3 data-edit="home.pillars.1-title" data-label="Point 1: title">Consultation first</h3>
+            <p data-edit="home.pillars.1-text" data-label="Point 1: text">We review your skin concerns, current products and treatment history before choosing your facial.</p>
           </div>
           <div class="pillar" data-reveal data-delay="0.08">
-            <h3>Custom treatments</h3>
-            <p>Your skin assessment guides the treatment, with attention to dryness, breakouts and texture.</p>
+            <h3 data-edit="home.pillars.2-title" data-label="Point 2: title">Custom treatments</h3>
+            <p data-edit="home.pillars.2-text" data-label="Point 2: text">Your skin assessment guides the treatment, with attention to dryness, breakouts and texture.</p>
           </div>
           <div class="pillar" data-reveal data-delay="0.16">
-            <h3>Care with Melissa</h3>
-            <p>Work directly with your esthetician to discuss your skin and choose your next steps.</p>
+            <h3 data-edit="home.pillars.3-title" data-label="Point 3: title">Care with Melissa</h3>
+            <p data-edit="home.pillars.3-text" data-label="Point 3: text">Work directly with your esthetician to discuss your skin and choose your next steps.</p>
           </div>
           <div class="pillar" data-reveal data-delay="0.24">
-            <h3>Honest guidance</h3>
-            <p>Understand what your treatment can address and why results vary from person to person.</p>
+            <h3 data-edit="home.pillars.4-title" data-label="Point 4: title">Honest guidance</h3>
+            <p data-edit="home.pillars.4-text" data-label="Point 4: text">Understand what your treatment can address and why results vary from person to person.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- COLLAGE: centre image holds while frames drift past -->
-    <section class="collage has-ripple" aria-label="Treatments overview">
+    <section class="collage has-ripple" aria-label="Treatments overview" data-edit-section="Photo collage">
       <div class="collage__float collage__float--a" data-speed="1.15">
-        <div class="media"><img src="assets/img/treat-signature.webp" alt="Hydrating jelly mask with botanicals during a facial" width="1050" height="1400" loading="lazy"></div>
+        <div class="media"><img src="assets/img/treat-signature.webp" alt="Hydrating jelly mask with botanicals during a facial" width="1050" height="1400" loading="lazy" data-edit="home.collage.photo-1" data-label="Small photo 1"></div>
       </div>
       <div class="collage__float collage__float--b" data-speed="0.8">
-        <div class="media"><img src="assets/img/treat-dermaplane.webp" alt="Dermaplaning with a precision blade on the cheek" width="1200" height="1200" loading="lazy"></div>
+        <div class="media"><img src="assets/img/treat-dermaplane.webp" alt="Dermaplaning with a precision blade on the cheek" width="1200" height="1200" loading="lazy" data-edit="home.collage.photo-2" data-label="Small photo 2"></div>
       </div>
       <div class="collage__float collage__float--c" data-speed="1.45">
-        <div class="media"><img src="assets/img/treat-pdrn.webp" alt="Vial of PDRN serum held up in the treatment room" width="895" height="1500" loading="lazy"></div>
+        <div class="media"><img src="assets/img/treat-pdrn.webp" alt="Vial of PDRN serum held up in the treatment room" width="895" height="1500" loading="lazy" data-edit="home.collage.photo-3" data-label="Small photo 3"></div>
       </div>
       <div class="collage__float collage__float--d" data-speed="0.6">
-        <div class="media"><img src="assets/img/spa-room.webp" alt="Calm treatment room with a facial bed and warm light" width="1600" height="1600" loading="lazy"></div>
+        <div class="media"><img src="assets/img/spa-room.webp" alt="Calm treatment room with a facial bed and warm light" width="1600" height="1600" loading="lazy" data-edit="home.collage.photo-4" data-label="Small photo 4"></div>
       </div>
       <div class="collage__center">
-        <div class="media"><img src="assets/img/treat-glass.webp" alt="Client relaxing with radiant, hydrated skin after a facial" width="1493" height="1600" loading="lazy"></div>
+        <div class="media"><img src="assets/img/treat-glass.webp" alt="Client relaxing with radiant, hydrated skin after a facial" width="1493" height="1600" loading="lazy" data-edit="home.collage.photo-main" data-label="Large photo in the middle"></div>
         <div class="collage__caption">
-          <p class="caps">Compare custom facials, dermaplaning, chemical peels and microneedling before booking your appointment.</p>
+          <p class="caps" data-edit="home.collage.text">Compare custom facials, dermaplaning, chemical peels and microneedling before booking your appointment.</p>
           <a class="link-arrow" href="treatments.html">View Treatments <span class="arr">→</span></a>
         </div>
       </div>
-      <p class="label collage__welcome">(Welcome to The Skyn Room)</p>
+      <p class="label collage__welcome" data-edit="home.collage.label">(Welcome to The Skyn Room)</p>
     </section>
 
     <!-- MENU: horizontal scroll while pinned -->
-    <section class="hmenu section-hmenu tone-invert" aria-label="Facials and skin treatments">
+    <section class="hmenu section-hmenu tone-invert" aria-label="Facials and skin treatments" data-edit-section="Treatment slider">
       <div class="hmenu__track">
         <div class="hmenu__intro">
-          <h2 class="h-section" data-split>Skin <em>treatments.</em></h2>
-          <p class="body">Explore facials, chemical peels and microneedling. New clients begin with a Signature Custom Facial, including a consultation and skin assessment.</p>
+          <h2 class="h-section" data-split data-edit="home.treatments.heading">Skin <em>treatments.</em></h2>
+          <p class="body" data-edit="home.treatments.text">Explore facials, chemical peels and microneedling. New clients begin with a Signature Custom Facial, including a consultation and skin assessment.</p>
           <a class="link-arrow" href="treatments.html">View All Treatments <span class="arr">→</span></a>
         </div>
         <div class="hmenu__cards" data-live="cards">
@@ -258,24 +258,24 @@
     </section>
 
     <!-- QUOTE: frame opens to full screen while pinned -->
-    <section class="qexpand tone-invert" aria-label="Philosophy">
+    <section class="qexpand tone-invert" aria-label="Philosophy" data-edit-section="Quote">
       <div class="qexpand__media">
-        <img src="assets/img/spa-interior.webp" alt="" width="2000" height="1125" loading="lazy">
+        <img src="assets/img/spa-interior.webp" alt="" width="2000" height="1125" loading="lazy" data-edit="home.quote.photo">
         <figure class="qexpand__quote">
-          <blockquote>“In the treatment room, I treat your skin as if it were my own.”</blockquote>
-          <figcaption class="label">Melissa Wohl, Founder &amp; Esthetician</figcaption>
+          <blockquote data-edit="home.quote.text">“In the treatment room, I treat your skin as if it were my own.”</blockquote>
+          <figcaption class="label" data-edit="home.quote.caption">Melissa Wohl, Founder &amp; Esthetician</figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- RESULTS -->
-    <section class="section results tone-sand" aria-label="Results">
+    <!-- RESULTS: content.js shows the photos marked for the home page in the studio -->
+    <section class="section results tone-sand" aria-label="Results" data-edit-section="Before &amp; after">
       <div class="wrap">
         <div class="results-head">
-          <h2 class="h-section" data-split>Before &amp; <em>after.</em></h2>
+          <h2 class="h-section" data-split data-edit="home.results.heading">Before &amp; <em>after.</em></h2>
           <a class="link-arrow" href="results.html">View All Photos <span class="arr">→</span></a>
         </div>
-        <div class="results-grid">
+        <div class="results-grid" data-live="results-home">
           <a class="rcard" href="results.html">
             <div class="media" data-img-reveal><img src="assets/img/ba-3.webp" alt="Side-by-side before-and-after photos of a client’s face" width="1122" height="1300" loading="lazy"></div>
             <span class="label">Before &amp; After</span>
@@ -300,16 +300,16 @@
 
   </main>
 
-  <footer class="site-footer tone-cocoa">
+  <footer class="site-footer tone-cocoa" data-edit-section="Footer">
     <div class="wrap">
       <div class="footer-cta">
-        <h2 class="h-section" data-split>Book your next <em>facial.</em></h2>
+        <h2 class="h-section" data-split data-edit="footer.heading">Book your next <em>facial.</em></h2>
         <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
       </div>
       <div class="footer-cols">
         <div>
           <h4 class="label">Appointments</h4>
-          <p>Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
+          <p data-edit="footer.appointments" data-label="Appointments text">Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
         </div>
         <div>
           <h4 class="label">Explore</h4>
@@ -332,12 +332,12 @@
         </div>
         <div>
           <h4 class="label">The Studio</h4>
-          <p>Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
+          <p data-edit="footer.studio" data-label="The Studio text">Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
         </div>
       </div>
       <div class="footer-mark" aria-hidden="true"><img class="logo-img" loading="lazy" src="assets/img/logo-cream.webp" alt="" width="1600" height="1215"></div>
       <div class="footer-bottom">
-        <span>© 2026 The Skyn Room. All rights reserved.</span>
+        <span data-edit="footer.copyright" data-label="Copyright line">© 2026 The Skyn Room. All rights reserved.</span>
         <a href="#top">Back to top ↑</a>
       </div>
     </div>

@@ -66,28 +66,28 @@
 
   <main id="main">
 
-    <section class="page-hero">
+    <section class="page-hero" data-edit-section="Top of the page">
       <div class="wrap page-hero__row">
-        <h1 class="h-display page-hero__title" data-split data-delay="0.1">Facial <em>treatments.</em></h1>
+        <h1 class="h-display page-hero__title" data-split data-delay="0.1" data-edit="treatments.hero.heading">Facial <em>treatments.</em></h1>
         <div class="page-hero__aside" data-reveal data-delay="0.3">
-          <p>Compare custom facials, dermaplaning, chemical peels and microneedling. Read the treatment details, then book your appointment online.</p>
+          <p data-edit="treatments.hero.text">Compare custom facials, dermaplaning, chemical peels and microneedling. Read the treatment details, then book your appointment online.</p>
           <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
         </div>
       </div>
     </section>
 
     <div class="wrap">
-      <figure class="wide-media media">
-        <img src="assets/img/spa-room.webp" alt="Calm treatment room with a facial bed and warm light" width="1600" height="1600" fetchpriority="high">
+      <figure class="wide-media media" data-edit-section="Top of the page">
+        <img src="assets/img/spa-room.webp" alt="Calm treatment room with a facial bed and warm light" width="1600" height="1600" fetchpriority="high" data-edit="treatments.hero.photo" data-label="Wide photo">
       </figure>
     </div>
 
-    <section class="section tintro" aria-label="Choosing a facial treatment">
+    <section class="section tintro" aria-label="Choosing a facial treatment" data-edit-section="Introduction">
       <div class="wrap tintro__grid">
-        <p class="lead tintro__lead" data-scrub>Explore treatments for concerns such as breakouts, dryness, uneven tone and skin texture. Melissa reviews your skin and current routine before recommending a treatment plan.</p>
+        <p class="lead tintro__lead" data-scrub data-edit="treatments.intro.text">Explore treatments for concerns such as breakouts, dryness, uneven tone and skin texture. Melissa reviews your skin and current routine before recommending a treatment plan.</p>
         <div class="tintro__note" data-reveal>
-          <p class="label">New to The Skyn Room?</p>
-          <p class="body">Book a Signature Custom Facial for your first visit. Melissa will assess your skin, review your skincare routine and discuss your goals before tailoring the facial to your needs.</p>
+          <p class="label" data-edit="treatments.intro.note-title" data-label="Note: title">New to The Skyn Room?</p>
+          <p class="body" data-edit="treatments.intro.note" data-label="Note: text">Book a Signature Custom Facial for your first visit. Melissa will assess your skin, review your skincare routine and discuss your goals before tailoring the facial to your needs.</p>
         </div>
       </div>
     </section>
@@ -95,11 +95,11 @@
     <!-- MENU: every treatment by category. content.js replaces the rows with the
          live menu from the studio; these are the saved copy. A row's photo follows
          the pointer (data-cursor = its photo in .cursor-img). -->
-    <section class="section tmenu tone-sand" id="menu" aria-labelledby="menu-title">
+    <section class="section tmenu tone-sand" id="menu" aria-labelledby="menu-title" data-edit-section="Menu">
       <div class="wrap">
         <div class="tmenu__head">
-          <h2 class="h-section" id="menu-title" data-split>The <em>menu.</em></h2>
-          <p class="tmenu__note" data-reveal>Choose a treatment and book online through Vagaro. New to The Skyn Room? Start with a Signature Custom Facial.</p>
+          <h2 class="h-section" id="menu-title" data-split data-edit="treatments.menu.heading">The <em>menu.</em></h2>
+          <p class="tmenu__note" data-reveal data-edit="treatments.menu.text">Choose a treatment and book online through Vagaro. New to The Skyn Room? Start with a Signature Custom Facial.</p>
         </div>
         <div class="tmenu__groups" data-live="menu">
           <div class="tmenu__group">
@@ -326,26 +326,26 @@
 
     </section>
 
-    <section class="section cta-band has-ripple" aria-label="Help choosing a treatment">
+    <section class="section cta-band has-ripple" aria-label="Help choosing a treatment" data-edit-section="Questions">
       <div class="wrap">
-        <h2 class="h-section" data-split>Questions about a <em>treatment?</em></h2>
-        <p data-reveal>Contact Melissa with questions about a service or your skin concerns. If you are a new client, book a Signature Custom Facial for your first visit.</p>
+        <h2 class="h-section" data-split data-edit="treatments.cta.heading">Questions about a <em>treatment?</em></h2>
+        <p data-reveal data-edit="treatments.cta.text">Contact Melissa with questions about a service or your skin concerns. If you are a new client, book a Signature Custom Facial for your first visit.</p>
         <a class="btn btn--ghost" href="contact.html" data-reveal>Ask a Question</a>
       </div>
     </section>
 
   </main>
 
-  <footer class="site-footer tone-cocoa">
+  <footer class="site-footer tone-cocoa" data-edit-section="Footer">
     <div class="wrap">
       <div class="footer-cta">
-        <h2 class="h-section" data-split>Book your next <em>facial.</em></h2>
+        <h2 class="h-section" data-split data-edit="footer.heading">Book your next <em>facial.</em></h2>
         <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
       </div>
       <div class="footer-cols">
         <div>
           <h4 class="label">Appointments</h4>
-          <p>Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
+          <p data-edit="footer.appointments" data-label="Appointments text">Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
         </div>
         <div>
           <h4 class="label">Explore</h4>
@@ -368,12 +368,12 @@
         </div>
         <div>
           <h4 class="label">The Studio</h4>
-          <p>Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
+          <p data-edit="footer.studio" data-label="The Studio text">Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
         </div>
       </div>
       <div class="footer-mark" aria-hidden="true"><img class="logo-img" loading="lazy" src="assets/img/logo-cream.webp" alt="" width="1600" height="1215"></div>
       <div class="footer-bottom">
-        <span>© 2026 The Skyn Room. All rights reserved.</span>
+        <span data-edit="footer.copyright" data-label="Copyright line">© 2026 The Skyn Room. All rights reserved.</span>
         <a href="#top">Back to top ↑</a>
       </div>
     </div>

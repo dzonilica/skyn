@@ -66,18 +66,19 @@
 
   <main id="main">
 
-    <section class="page-hero">
+    <section class="page-hero" data-edit-section="Top of the page">
       <div class="wrap page-hero__row">
-        <h1 class="h-display h-display--md page-hero__title" data-split data-delay="0.1">Before &amp; <em>after.</em></h1>
+        <h1 class="h-display h-display--md page-hero__title" data-split data-delay="0.1" data-edit="results.hero.heading">Before &amp; <em>after.</em></h1>
         <div class="page-hero__aside" data-reveal data-delay="0.3">
-          <p>Browse before-and-after skin treatment photos from The Skyn Room. Select an image to compare the client’s skin up close.</p>
+          <p data-edit="results.hero.text">Browse before-and-after skin treatment photos from The Skyn Room. Select an image to compare the client’s skin up close.</p>
         </div>
       </div>
     </section>
 
-    <!-- DECK: stacked results spread into a grid while pinned -->
+    <!-- DECK: stacked results spread into a grid while pinned. content.js puts
+         the first six photos from the studio here and the rest in .ba-more -->
     <section class="deck-section has-ripple" aria-label="Before and after gallery">
-      <div class="deck">
+      <div class="deck" data-live="deck">
         <button class="deck__item" type="button" data-full="assets/img/ba-3.webp" data-alt="Side-by-side before-and-after photos of a client’s face" aria-label="Enlarge before-and-after photos: full face">
           <img src="assets/img/ba-3.webp" alt="Side-by-side before-and-after photos of a client’s face" width="1122" height="1300">
         </button>
@@ -99,14 +100,20 @@
       </div>
     </section>
 
-    <section class="section tone-taupe" aria-label="Follow on Instagram">
+    <section class="section ba-more" aria-label="More before and after photos" hidden>
+      <div class="wrap">
+        <div class="ba-grid" data-live="results-more"></div>
+      </div>
+    </section>
+
+    <section class="section tone-taupe" aria-label="Follow on Instagram" data-edit-section="Instagram">
       <div class="wrap ig-cta">
         <figure class="ig-cta__media media" data-img-reveal>
-          <img src="assets/img/treat-botox.webp" alt="Treatment mask applied with fan brushes during a facial" width="736" height="917" loading="lazy">
+          <img src="assets/img/treat-botox.webp" alt="Treatment mask applied with fan brushes during a facial" width="736" height="917" loading="lazy" data-edit="results.instagram.photo">
         </figure>
         <div class="ig-cta__text">
-          <h2 class="h-section" data-split>More results on <em>Instagram.</em></h2>
-          <p class="body" data-reveal>See more client before-and-after photos and facial treatment updates from Melissa.</p>
+          <h2 class="h-section" data-split data-edit="results.instagram.heading">More results on <em>Instagram.</em></h2>
+          <p class="body" data-reveal data-edit="results.instagram.text">See more client before-and-after photos and facial treatment updates from Melissa.</p>
           <a class="btn" href="https://www.instagram.com/skynbymelissa" target="_blank" rel="noopener" data-reveal>Follow @skynbymelissa</a>
         </div>
       </div>
@@ -119,16 +126,16 @@
     <button class="lightbox__close" type="button">Close</button>
   </dialog>
 
-  <footer class="site-footer tone-cocoa">
+  <footer class="site-footer tone-cocoa" data-edit-section="Footer">
     <div class="wrap">
       <div class="footer-cta">
-        <h2 class="h-section" data-split>Book your next <em>facial.</em></h2>
+        <h2 class="h-section" data-split data-edit="footer.heading">Book your next <em>facial.</em></h2>
         <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
       </div>
       <div class="footer-cols">
         <div>
           <h4 class="label">Appointments</h4>
-          <p>Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
+          <p data-edit="footer.appointments" data-label="Appointments text">Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
         </div>
         <div>
           <h4 class="label">Explore</h4>
@@ -151,12 +158,12 @@
         </div>
         <div>
           <h4 class="label">The Studio</h4>
-          <p>Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
+          <p data-edit="footer.studio" data-label="The Studio text">Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
         </div>
       </div>
       <div class="footer-mark" aria-hidden="true"><img class="logo-img" loading="lazy" src="assets/img/logo-cream.webp" alt="" width="1600" height="1215"></div>
       <div class="footer-bottom">
-        <span>© 2026 The Skyn Room. All rights reserved.</span>
+        <span data-edit="footer.copyright" data-label="Copyright line">© 2026 The Skyn Room. All rights reserved.</span>
         <a href="#top">Back to top ↑</a>
       </div>
     </div>
@@ -166,6 +173,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/SplitText.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/js/content.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

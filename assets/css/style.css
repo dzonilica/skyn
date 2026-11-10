@@ -211,6 +211,17 @@ button {
   cursor: pointer;
 }
 
+/* links written in the studio ([text](link)) inside page text */
+[data-edit] a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* content.js hides what the studio emptied or what has nothing to show */
+[hidden] {
+  display: none !important;
+}
+
 h1,
 h2,
 h3,
@@ -793,6 +804,10 @@ em,
   background-position: 0 0, 50% 34%;
   background-repeat: no-repeat;
   transform-origin: 50% 50%;
+}
+/* a photo chosen in the studio (content.js sets --photo on .hero) */
+.hero.has-photo .hero__img {
+  background-image: linear-gradient(180deg, rgba(66, 35, 6, 0.1), rgba(66, 35, 6, 0.46)), var(--photo);
 }
 
 /* small type around the composition */
@@ -1786,6 +1801,44 @@ em,
   }
 }
 
+/* photos after the first six (or all of them, when there are fewer) */
+.ba-more {
+  padding-top: 16px;
+}
+.ba-more--alone {
+  padding-top: clamp(8px, 2vw, 32px);
+}
+.ba-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+/* under the spread: as wide as the deck above it */
+@media (min-width: 900px) {
+  .ba-more:not(.ba-more--alone) .ba-grid {
+    max-width: calc(min(calc(100svh - var(--header-h) - 64px), 54vw) * 1.2);
+  }
+}
+.ba-grid__item {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  cursor: zoom-in;
+}
+.ba-grid__item img {
+  transition: transform 1s var(--ease);
+}
+.ba-grid__item:focus-visible {
+  outline-offset: 4px;
+}
+@media (hover: hover) {
+  .ba-grid__item:hover img {
+    transform: scale(1.04);
+  }
+}
+
 .lightbox {
   border: 0;
   padding: 0;
@@ -1895,6 +1948,7 @@ em,
   display: none;
 }
 .pcard__media {
+  display: block;
   aspect-ratio: 4 / 5;
 }
 .pcard__media img {
@@ -1935,13 +1989,24 @@ em,
   font-size: 21px;
   line-height: 1.2;
 }
+/* the start of the description; the product page has the rest */
 .pcard__desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
   margin-top: 10px;
   font-size: 14.5px;
   line-height: 1.6;
   color: var(--muted);
 }
 .pcard__action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
   margin-top: auto;
   padding-top: 20px;
 }
@@ -1986,6 +2051,89 @@ em,
   color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ---------- Product page ---------- */
+
+.pdetail {
+  padding-top: calc(var(--header-h) + clamp(32px, 4vw, 64px));
+  padding-bottom: clamp(96px, 10vw, 160px);
+}
+.pdetail__back {
+  margin-bottom: clamp(28px, 3vw, 48px);
+}
+.pdetail__back::after {
+  left: 28px;
+  right: 0;
+}
+.pdetail__back:hover .arr {
+  transform: translateX(-6px);
+}
+.pdetail__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.pdetail__media {
+  grid-column: 1 / span 6;
+  aspect-ratio: 4 / 5;
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+}
+.pdetail__media.is-sold-out {
+  opacity: 0.55;
+}
+.pdetail__body {
+  grid-column: 8 / span 5;
+  padding-top: 8px;
+}
+.pdetail__brand {
+  margin-bottom: 14px;
+  color: var(--muted);
+}
+.pdetail__name {
+  font-size: clamp(40px, 4.4vw, 72px);
+  overflow-wrap: break-word;
+}
+.pdetail__price {
+  margin-top: 16px;
+  font-family: var(--serif);
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1.2;
+}
+.pdetail__desc {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.pdetail__desc p {
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.pdetail__desc p + p {
+  margin-top: 1em;
+}
+.pdetail__action {
+  margin-top: 36px;
+}
+.pdetail__cat {
+  margin-top: 28px;
+  color: var(--muted);
+}
+.pdetail__missing {
+  grid-column: 1 / span 8;
+}
+.pdetail__missing .body {
+  margin-top: 20px;
+}
+.pdetail__missing .btn {
+  margin-top: 32px;
+}
+.pmore__title {
+  margin-bottom: clamp(40px, 5vw, 72px);
 }
 
 /* =========================================================
@@ -2478,6 +2626,25 @@ em,
   .shop__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 48px 16px;
+  }
+  .pcard__action .link-arrow {
+    font-size: 13px;
+  }
+  .pdetail__media,
+  .pdetail__body,
+  .pdetail__missing {
+    grid-column: 1 / -1;
+  }
+  .pdetail__media {
+    position: relative;
+    top: auto;
+  }
+  .pdetail__body {
+    padding-top: 12px;
+  }
+  .ba-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
   .shop-how__title,
   .shop-how__steps {

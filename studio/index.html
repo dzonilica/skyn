@@ -12,7 +12,8 @@
   <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
   <link rel="stylesheet" href="studio.css">
 </head>
-<!-- The secret studio: edits the treatment menu and the shop.
+<!-- The secret studio: edits the treatment menu, the shop, the before & after
+     photos and the text and photos on every page.
      The key after # in the link is checked by the `admin` Edge Function on
      every request (supabase/functions/admin). -->
 <body>
@@ -25,6 +26,8 @@
       <nav class="tabs" role="tablist" aria-label="Sections" hidden>
         <button class="tab" type="button" role="tab" id="tab-menu" aria-controls="panel-menu" aria-selected="true" data-tab="menu">Menu</button>
         <button class="tab" type="button" role="tab" id="tab-shop" aria-controls="panel-shop" aria-selected="false" data-tab="shop" tabindex="-1">Shop</button>
+        <button class="tab" type="button" role="tab" id="tab-results" aria-controls="panel-results" aria-selected="false" data-tab="results" tabindex="-1">Results</button>
+        <button class="tab" type="button" role="tab" id="tab-pages" aria-controls="panel-pages" aria-selected="false" data-tab="pages" tabindex="-1">Pages</button>
         <button class="tab" type="button" role="tab" id="tab-help" aria-controls="panel-help" aria-selected="false" data-tab="help" tabindex="-1">Help</button>
       </nav>
       <a class="bar__site" href="../" target="_blank" rel="noopener">View site <span aria-hidden="true">↗</span></a>
@@ -66,6 +69,43 @@
       <div id="shop-list"></div>
     </section>
 
+    <section class="panel" id="panel-results" role="tabpanel" aria-labelledby="tab-results" hidden>
+      <div class="panel__head">
+        <div>
+          <h1 class="h1">Before &amp; after</h1>
+          <p class="hint">The first six photos open the Results page; the rest follow below them.</p>
+        </div>
+        <div class="panel__actions">
+          <button class="btn" type="button" data-new="results">+ Photo</button>
+        </div>
+      </div>
+      <div id="results-list"></div>
+    </section>
+
+    <section class="panel" id="panel-pages" role="tabpanel" aria-labelledby="tab-pages" hidden>
+      <div class="panel__head">
+        <div>
+          <h1 class="h1">Pages</h1>
+          <p class="hint">The words and photos on each page. Pick a page, change what you need, then tap <em>Save</em>.</p>
+        </div>
+      </div>
+      <div class="chips" id="page-chips" role="group" aria-label="Choose a page"></div>
+      <div class="pages__intro">
+        <p class="hint" id="page-note"></p>
+        <a class="pages__view" id="page-view" href="../" target="_blank" rel="noopener">View this page <span aria-hidden="true">↗</span></a>
+      </div>
+      <details class="tips">
+        <summary>Writing tips</summary>
+        <ul>
+          <li>Put <span class="key">*</span>stars<span class="key">*</span> around words to make them italic, like the headings on the site: <code>Before &amp; *after.*</code></li>
+          <li>A link looks like this: <code>[Vagaro booking page](https://www.vagaro.com/theskynroom1/services)</code></li>
+          <li>Press Enter for a new line.</li>
+          <li>Empty a box to hide that text. <em>Use original</em> brings back the text the website launched with.</li>
+        </ul>
+      </details>
+      <div id="page-fields"></div>
+    </section>
+
     <section class="panel help" id="panel-help" role="tabpanel" aria-labelledby="tab-help" hidden>
       <h1 class="h1">How to use your studio</h1>
       <p class="lede">Everything you save here shows on theskynroom.com right away. Refresh the website to see it.</p>
@@ -83,10 +123,26 @@
 
       <h2 class="h2">Shop</h2>
       <ol class="steps">
-        <li><strong>Add a product:</strong> tap <em>+ Product</em>, then add the name, brand, price, a photo and a short description.</li>
+        <li><strong>Add a product:</strong> tap <em>+ Product</em>, then add the name, brand, price, a photo and a description. The Shop page shows the first sentence; clients tap <em>View More</em> to read the whole description on the product's own page.</li>
         <li><strong>Buy link:</strong> if the product can be bought online (for example a Vagaro, Stripe or Amazon link), paste the link and the website shows a <em>Buy Now</em> button. Leave it empty and the product shows <em>Available in the studio</em>.</li>
         <li><strong>Sold out:</strong> switch it on to keep the product on the page, marked as sold out.</li>
         <li><strong>Category</strong> is optional, for example Cleansers, Serums or SPF. Once two or more are used, the Shop page shows filter buttons.</li>
+      </ol>
+
+      <h2 class="h2">Before &amp; after (Results tab)</h2>
+      <ol class="steps">
+        <li><strong>Add a photo:</strong> tap <em>+ Photo</em>, choose the before &amp; after picture and give it a short title, then tap <em>Save</em>.</li>
+        <li><strong>Order:</strong> use the <span class="key">↑</span> <span class="key">↓</span> arrows. The first six photos open the Results page as a spread; the rest follow below them.</li>
+        <li><strong>Home page:</strong> switch on <em>Show on the Home page</em> for up to three photos. Their title (and treatment, if you add one) shows under each photo.</li>
+      </ol>
+
+      <h2 class="h2">Text and photos on the pages (Pages tab)</h2>
+      <ol class="steps">
+        <li><strong>Pick a page</strong> at the top: Home, Treatments, Shop and so on. <em>Footer</em> is the bottom part that every page shares.</li>
+        <li><strong>Change the words</strong> in any box. Boxes are in the same order as on the page, grouped by section.</li>
+        <li><strong>Change a photo:</strong> tap <em>Change photo</em> under it.</li>
+        <li><strong>Save:</strong> the bar at the bottom shows how many changes you have; tap <em>Save</em> to put them on the website, or <em>Undo</em> to drop them.</li>
+        <li><strong>Made a mistake?</strong> <em>Use original</em> brings back the text or photo the website launched with.</li>
       </ol>
 
       <h2 class="h2">Photos</h2>
@@ -120,6 +176,14 @@
       </footer>
     </form>
   </dialog>
+
+  <div class="savebar" id="savebar" hidden>
+    <p class="savebar__text" id="savebar-text" role="status"></p>
+    <div class="savebar__buttons">
+      <button class="btn btn--ghost" type="button" id="text-undo">Undo</button>
+      <button class="btn" type="button" id="text-save">Save</button>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

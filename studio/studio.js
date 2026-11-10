@@ -1,5 +1,6 @@
 /* The Skyn Room - studio
-   Edits the treatment menu and the shop on the live website.
+   Edits the treatment menu, the shop, the before & after photos and the
+   text and photos on every page of the live website.
    The key after # in the studio link is the password: it is kept on this
    device and sent with every request to the `admin` Edge Function, which
    checks it before it changes anything. */
@@ -99,7 +100,7 @@
 
   /* ---------------- State ---------------- */
 
-  const state = { categories: [], treatments: [], products: [] };
+  const state = { categories: [], treatments: [], products: [], results: [], site: new Map() };
   const bySort = (a, b) => a.sort - b.sort || String(a.created_at).localeCompare(String(b.created_at));
   const catIds = () => new Set(state.categories.map((c) => c.id));
 
@@ -139,18 +140,22 @@
     </span>`;
   }
 
+  // what a row is called in lists and messages (before & after photos have a title)
+  const nameOf = (table, r) => (table === "results" ? r.title || "Untitled photo" : r.name);
+
   function row(table, r, index, count, meta, tags) {
     const src = imgSrc(r.image_url);
+    const name = nameOf(table, r);
     return `<li class="row${r.visible ? "" : " is-hidden"}">
       <button class="row__open" type="button" data-edit="${table}" data-id="${r.id}">
         <span class="thumb">${src ? `<img src="${esc(src)}" alt="" loading="lazy">` : ""}</span>
         <span class="row__text">
-          <span class="row__name">${esc(r.name)}</span>
+          <span class="row__name">${esc(name)}</span>
           <span class="row__meta">${esc(meta)}</span>
           ${tags.length ? `<span class="row__tags">${tags.join("")}</span>` : ""}
         </span>
       </button>
-      ${moveButtons(table, r.id, index, count, r.name)}
+      ${moveButtons(table, r.id, index, count, name)}
     </li>`;
   }
 
@@ -212,9 +217,30 @@
       .join("")}</ul>`;
   }
 
+  function renderResults() {
+    const box = $("#results-list");
+    const items = siblings("results");
+    if (!items.length) {
+      box.innerHTML = `<p class="empty">No before &amp; after photos yet. Tap <strong>+ Photo</strong> to add the first one.</p>`;
+      return;
+    }
+    // what the website shows: the first six visible photos are the spread
+    const visible = items.filter((r) => r.visible);
+    box.innerHTML = `<ul class="rows">${items
+      .map((r, i) => {
+        const tags = [];
+        if (r.home) tags.push(`<span class="tag tag--solid">Home page</span>`);
+        if (!r.visible) tags.push(`<span class="tag">Hidden</span>`);
+        else if (visible.length >= 6 && visible.indexOf(r) >= 6) tags.push(`<span class="tag">Below the spread</span>`);
+        return row("results", r, i, items.length, r.treatment || "Before & after", tags);
+      })
+      .join("")}</ul>`;
+  }
+
   const render = () => {
     renderMenu();
     renderShop();
+    renderResults();
   };
 
   async function move(table, id, dir) {
@@ -326,6 +352,41 @@
       ],
       defaults: { visible: true, sold_out: false },
       check: () => "",
+    },
+    results: {
+      noun: "photo",
+      sections: [
+        {
+          fields: [
+            { name: "image_url", label: "Photo", type: "photo", folder: "results", required: true },
+            {
+              name: "title",
+              label: "Title",
+              type: "text",
+              max: 120,
+              hint: "A few words about the result. Shown under the photo on the Home page.",
+              placeholder: "e.g. Full-face comparison",
+            },
+            {
+              name: "treatment",
+              label: "Treatment",
+              type: "text",
+              max: 80,
+              hint: "Optional. A small label above the title, for example the treatment name.",
+              placeholder: "e.g. Acne Relief Facial",
+            },
+            { name: "home", label: "Show on the Home page", type: "switch", hint: "Up to three photos show on the Home page." },
+            { name: "visible", label: "Show on website", type: "switch", hint: "Switch off to hide it without deleting it." },
+          ],
+        },
+      ],
+      defaults: { visible: true, home: false },
+      check: (r, id) => {
+        const others = state.results.filter((x) => x.id !== id && x.home && x.visible).length;
+        return r.home && r.visible && others >= 3
+          ? "Three photos are already on the Home page. Switch one of them off first, or switch this one off."
+          : "";
+      },
     },
     categories: {
       noun: "category",
@@ -467,7 +528,7 @@
     const missing = FORMS[table].sections
       .flatMap((s) => s.fields.flatMap((f) => f.row || [f]))
       .find((f) => f.required && !values[f.name]);
-    const problem = missing ? `Add the ${missing.label.toLowerCase()}.` : FORMS[table].check(values);
+    const problem = missing ? `Add the ${missing.label.toLowerCase()}.` : FORMS[table].check(values, r.id);
     if (problem) {
       errorEl.textContent = problem;
       return;
@@ -501,7 +562,7 @@
     }
     if (e.target.closest("[data-delete]") && editing) {
       const { table, row: r } = editing;
-      let msg = `Delete “${r.name}”? This can't be undone.`;
+      let msg = `Delete “${nameOf(table, r)}”? This can't be undone.`;
       if (table === "categories") {
         const n = state.treatments.filter((t) => t.category_id === r.id).length;
         if (n) msg = `Delete the category “${r.name}”? Its ${n} treatment${n > 1 ? "s" : ""} will move to “No category”.`;
@@ -603,7 +664,7 @@
 
   /* ---------------- Tabs ---------------- */
 
-  const TABS = ["menu", "shop", "help"];
+  const TABS = ["menu", "shop", "results", "pages", "help"];
   let currentTab = "menu";
   function showTab(name) {
     if (!TABS.includes(name)) name = "menu";
@@ -616,6 +677,8 @@
       $("#panel-" + t).hidden = !on;
     });
     store.set(STORE_TAB, name);
+    if (name === "pages") showPage(currentPage);
+    updateSavebar();
   }
   $(".tabs").addEventListener("keydown", (e) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
@@ -623,6 +686,325 @@
     const next = TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
     showTab(next);
     $("#tab-" + next).focus();
+  });
+
+  /* ---------------- Pages: text and photos ----------------
+     Each page of the website marks what can change with data-edit="key".
+     The studio reads the page itself, so the boxes here always match it:
+     the text in the HTML is the original, a saved value replaces it, and
+     nothing is saved until Save on the save bar is tapped. */
+
+  const PAGES = [
+    { id: "home", file: "index.html", name: "Home", note: "The treatment cards come from the Menu tab and the before & after photos from the Results tab." },
+    { id: "treatments", file: "treatments.html", name: "Treatments", note: "Treatments, prices and photo cards are in the Menu tab." },
+    { id: "shop", file: "shop.html", name: "Shop", note: "The products themselves are in the Shop tab." },
+    { id: "product", file: "product.html", name: "Product page", note: "Each product's name, photo and description are in the Shop tab. These are the words around them." },
+    { id: "about", file: "about.html", name: "About", note: "" },
+    { id: "results", file: "results.html", name: "Results", note: "The before & after photos are in the Results tab." },
+    { id: "contact", file: "contact.html", name: "Contact", note: "" },
+    { id: "footer", file: "index.html", name: "Footer", footer: true, note: "The footer is the bottom part of every page." },
+  ];
+  const STORE_PAGE = "skyn-studio-page";
+  const docs = new Map(); // file -> parsed page (a promise)
+  const drafts = new Map(); // key -> new value (null = back to the original)
+  let currentPage = store.get(STORE_PAGE) || "home";
+  let pageFields = []; // fields of the page that is open
+
+  function fetchPage(file) {
+    if (!docs.has(file)) {
+      const p = fetch(SITE + file, { cache: "no-cache" })
+        .then((r) => {
+          if (!r.ok) throw new Error();
+          return r.text();
+        })
+        .then((html) => new DOMParser().parseFromString(html, "text/html"))
+        .catch(() => {
+          docs.delete(file);
+          throw new Error("This page couldn't be opened. Check your connection and try again.");
+        });
+      docs.set(file, p);
+    }
+    return docs.get(file);
+  }
+
+  // an element's text the way the studio writes it: *italic*, [text](link), new lines
+  function toMarkup(el) {
+    let out = "";
+    el.childNodes.forEach((n) => {
+      if (n.nodeType === 3) out += n.nodeValue.replace(/\s+/g, " ");
+      else if (n.nodeType !== 1) return;
+      else if (n.tagName === "BR") out += "\n";
+      else if (n.tagName === "EM" || n.tagName === "I") out += "*" + toMarkup(n) + "*";
+      else if (n.tagName === "A") out += "[" + toMarkup(n) + "](" + n.getAttribute("href") + ")";
+      else out += toMarkup(n);
+    });
+    return out;
+  }
+  const tidy = (s) =>
+    String(s)
+      .replace(/\r\n/g, "\n")
+      .split("\n")
+      .map((l) => l.trim())
+      .join("\n")
+      .trim();
+
+  function autoLabel(el) {
+    if (el.tagName === "IMG" || el.hasAttribute("data-edit-bg")) return "Photo";
+    if (/^H[12]$/.test(el.tagName)) return "Heading";
+    if (/^H[3-6]$/.test(el.tagName)) return "Title";
+    if (el.tagName === "BLOCKQUOTE") return "Quote";
+    if (el.tagName === "FIGCAPTION") return "Caption";
+    if (el.classList.contains("label")) return "Small label";
+    return "Text";
+  }
+
+  // the editable fields of a page, in page order, with their section
+  function readFields(doc, page) {
+    const seen = new Set();
+    const fields = [];
+    $$("[data-edit]", doc).forEach((el) => {
+      const key = el.dataset.edit;
+      if (seen.has(key) || !!el.closest("footer") !== !!page.footer) return;
+      seen.add(key);
+      const photo = el.tagName === "IMG" || el.hasAttribute("data-edit-bg");
+      const sec = el.closest("[data-edit-section]");
+      fields.push({
+        key,
+        photo,
+        section: (sec && sec.dataset.editSection) || page.name,
+        label: el.dataset.label || autoLabel(el),
+        auto: !el.dataset.label,
+        original: photo ? el.getAttribute("data-edit-bg") || el.getAttribute("src") : tidy(toMarkup(el)),
+      });
+    });
+    // number repeated plain labels within a section: Text 1, Text 2
+    const count = {};
+    fields.forEach((f) => f.auto && (count[f.section + f.label] = (count[f.section + f.label] || 0) + 1));
+    const seq = {};
+    fields.forEach((f) => {
+      const id = f.section + f.label;
+      if (f.auto && count[id] > 1) f.label += " " + (seq[id] = (seq[id] || 0) + 1);
+    });
+    return fields;
+  }
+
+  const saved = (key) => (state.site.has(key) ? state.site.get(key) : null);
+  const current = (f) => {
+    const v = drafts.has(f.key) ? drafts.get(f.key) : saved(f.key);
+    return v === null ? f.original : v;
+  };
+
+  function renderChips() {
+    $("#page-chips").innerHTML = PAGES.map(
+      (p) => `<button class="chip" type="button" data-page="${p.id}" aria-pressed="${p.id === currentPage}">${esc(p.name)}</button>`
+    ).join("");
+  }
+
+  async function showPage(id) {
+    const page = PAGES.find((p) => p.id === id) || PAGES[0];
+    currentPage = page.id;
+    store.set(STORE_PAGE, page.id);
+    renderChips();
+    $("#page-note").textContent = page.note;
+    $("#page-view").href = SITE + page.file;
+    $("#page-view").hidden = !!page.footer;
+    const box = $("#page-fields");
+    if (!docs.has(page.file)) box.innerHTML = `<p class="loading">Opening the page…</p>`;
+    try {
+      const doc = await fetchPage(page.file);
+      if (currentPage !== page.id) return;
+      pageFields = readFields(doc, page);
+      renderFields();
+    } catch (e) {
+      if (currentPage === page.id) box.innerHTML = `<p class="empty">${esc(e.message)}</p>`;
+    }
+  }
+
+  function renderFields() {
+    const box = $("#page-fields");
+    if (!pageFields.length) {
+      box.innerHTML = `<p class="empty">Nothing to change on this page.</p>`;
+      return;
+    }
+    const groups = [];
+    pageFields.forEach((f) => {
+      const last = groups[groups.length - 1];
+      if (last && last.name === f.section) last.fields.push(f);
+      else groups.push({ name: f.section, fields: [f] });
+    });
+    box.innerHTML = groups
+      .map(
+        (g) => `<section class="tgroup">
+          <h2 class="tgroup__name">${esc(g.name)}</h2>
+          ${g.fields.map(fieldBox).join("")}
+        </section>`
+      )
+      .join("");
+    $$("textarea", box).forEach(fit);
+  }
+
+  function fieldBox(f) {
+    const id = "t-" + f.key.replace(/[^\w-]/g, "-");
+    const v = current(f);
+    const changed = tidy(v) !== tidy(f.original);
+    const dirty = drafts.has(f.key) ? " is-dirty" : "";
+    const reset = (cls) =>
+      `<button class="${cls}" type="button" data-original="${esc(f.key)}"${changed ? "" : " hidden"}>Use original</button>`;
+    const head = (label) =>
+      `<div class="tfield__head">${label}${changed ? `<span class="tag">Changed</span>` : ""}</div>`;
+    if (f.photo) {
+      return `<div class="tfield tfield--photo${dirty}" data-key="${esc(f.key)}">
+        ${head(`<span class="label">${esc(f.label)}</span>`)}
+        <div class="photo">
+          <div class="photo__preview"><img src="${esc(imgSrc(v))}" alt=""></div>
+          <div class="photo__actions">
+            <input class="photo__file" type="file" accept="image/*" id="${id}" data-photo-key="${esc(f.key)}">
+            <label class="btn btn--ghost" for="${id}">Change photo</label>
+            ${reset("btn btn--ghost")}
+          </div>
+        </div>
+      </div>`;
+    }
+    return `<div class="tfield${dirty}" data-key="${esc(f.key)}">
+      ${head(`<label class="label" for="${id}">${esc(f.label)}</label>`)}
+      <textarea class="input" id="${id}" rows="1" maxlength="4000" data-text-key="${esc(f.key)}">${esc(v)}</textarea>
+      <div class="tfield__foot">
+        <p class="hint tfield__note">${esc(noteFor(f, v))}</p>
+        ${reset("tfield__reset")}
+      </div>
+    </div>`;
+  }
+
+  function noteFor(f, v) {
+    if (!v.trim()) return "Empty: this text is hidden on the website.";
+    if (v.length > f.original.length * 1.6 + 30) return "Much longer than the original. Check how it looks on your phone.";
+    return "";
+  }
+
+  // textareas grow with their text
+  function fit(t) {
+    t.style.height = "auto";
+    t.style.height = t.scrollHeight + 2 + "px";
+  }
+
+  // remember a change; going back to what is saved leaves nothing to save
+  function setDraft(f, value) {
+    const v = value === null || tidy(value) === tidy(f.original) ? null : tidy(value);
+    if (v === saved(f.key)) drafts.delete(f.key);
+    else drafts.set(f.key, v);
+    updateSavebar();
+  }
+
+  function updateField(f) {
+    const box = $$(".tfield", $("#page-fields")).find((b) => b.dataset.key === f.key);
+    if (!box) return;
+    const changed = tidy(current(f)) !== tidy(f.original);
+    box.classList.toggle("is-dirty", drafts.has(f.key));
+    const head = $(".tfield__head", box);
+    const tag = $(".tag", head);
+    if (changed && !tag) head.insertAdjacentHTML("beforeend", `<span class="tag">Changed</span>`);
+    if (!changed && tag) tag.remove();
+    $("[data-original]", box).hidden = !changed;
+    const note = $(".tfield__note", box);
+    if (note) note.textContent = noteFor(f, $("textarea", box).value);
+  }
+
+  function updateSavebar() {
+    const n = drafts.size;
+    const on = n > 0 && currentTab === "pages";
+    $("#savebar").hidden = !on;
+    document.body.classList.toggle("has-savebar", on);
+    $("#savebar-text").textContent = n === 1 ? "1 unsaved change" : `${n} unsaved changes`;
+  }
+
+  const fieldOf = (key) => pageFields.find((f) => f.key === key);
+
+  $("#page-chips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-page]");
+    if (b) showPage(b.dataset.page);
+  });
+
+  $("#page-fields").addEventListener("input", (e) => {
+    const t = e.target.closest("[data-text-key]");
+    const f = t && fieldOf(t.dataset.textKey);
+    if (!f) return;
+    fit(t);
+    setDraft(f, t.value);
+    updateField(f);
+  });
+
+  $("#page-fields").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-original]");
+    const f = b && fieldOf(b.dataset.original);
+    if (!f) return;
+    setDraft(f, null);
+    const box = b.closest(".tfield");
+    if (f.photo) {
+      $(".photo__preview", box).innerHTML = `<img src="${esc(imgSrc(f.original))}" alt="">`;
+    } else {
+      const t = $("textarea", box);
+      t.value = f.original;
+      fit(t);
+    }
+    updateField(f);
+  });
+
+  // a new photo is uploaded straight away and saved with the other changes
+  $("#page-fields").addEventListener("change", async (e) => {
+    const input = e.target.closest("[data-photo-key]");
+    const f = input && fieldOf(input.dataset.photoKey);
+    if (!f || !input.files || !input.files[0]) return;
+    const preview = $(".photo__preview", input.closest(".tfield"));
+    const save = $("#text-save");
+    preview.textContent = "Uploading…";
+    save.disabled = true;
+    try {
+      const url = await uploadPhoto(input.files[0], "site");
+      setDraft(f, url);
+      preview.innerHTML = `<img src="${esc(url)}" alt="">`;
+      updateField(f);
+    } catch (err) {
+      preview.innerHTML = `<img src="${esc(imgSrc(current(f)))}" alt="">`;
+      if (!(err instanceof Unauthorized)) toast(err.message, true);
+    } finally {
+      save.disabled = false;
+      input.value = "";
+    }
+  });
+
+  $("#text-undo").addEventListener("click", () => {
+    if (!confirm("Undo your unsaved changes?")) return;
+    drafts.clear();
+    updateSavebar();
+    renderFields();
+  });
+
+  $("#text-save").addEventListener("click", async (e) => {
+    const btn = e.currentTarget;
+    if (!drafts.size) return;
+    btn.disabled = true;
+    btn.setAttribute("aria-busy", "true");
+    btn.textContent = "Saving…";
+    try {
+      const data = await api("text", { items: [...drafts].map(([key, value]) => ({ key, value })) });
+      state.site = new Map((data.site || []).map((r) => [r.key, r.value]));
+      drafts.clear();
+      updateSavebar();
+      renderFields();
+      toast("Saved. It's live on the website.");
+    } catch (err) {
+      if (!(err instanceof Unauthorized)) toast(err.message, true);
+    } finally {
+      btn.disabled = false;
+      btn.removeAttribute("aria-busy");
+      btn.textContent = "Save";
+    }
+  });
+
+  window.addEventListener("beforeunload", (e) => {
+    if (!drafts.size) return;
+    e.preventDefault();
+    e.returnValue = "";
   });
 
   /* ---------------- Secret link ---------------- */
@@ -669,6 +1051,7 @@
     $(".tabs").hidden = true;
     TABS.forEach((t) => ($("#panel-" + t).hidden = true));
     if (dialog.open) dialog.close();
+    $("#savebar").hidden = true;
     $("#gate").hidden = false;
     if (text) $("#gate-text").textContent = text;
   }
@@ -678,6 +1061,8 @@
     state.categories = data.categories || [];
     state.treatments = data.treatments || [];
     state.products = data.products || [];
+    state.results = data.results || [];
+    state.site = new Map((data.site || []).map((r) => [r.key, r.value]));
     render();
   }
 

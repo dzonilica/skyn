@@ -66,44 +66,44 @@
 
   <main id="main">
 
-    <section class="page-hero">
+    <section class="page-hero" data-edit-section="Top of the page">
       <div class="wrap page-hero__row">
-        <h1 class="h-display h-display--md page-hero__title" data-split data-delay="0.1">Shop <em>skincare.</em></h1>
+        <h1 class="h-display h-display--md page-hero__title" data-split data-delay="0.1" data-edit="shop.hero.heading">Shop <em>skincare.</em></h1>
         <div class="page-hero__aside" data-reveal data-delay="0.3">
-          <p>Skincare Melissa uses in the treatment room and recommends for your routine at home.</p>
+          <p data-edit="shop.hero.text">Skincare Melissa uses in the treatment room and recommends for your routine at home.</p>
         </div>
       </div>
     </section>
 
     <!-- PRODUCTS: content.js fills the grid from the studio; until there are
          products (or if they cannot load) the empty note shows instead -->
-    <section class="section shop" aria-label="Products">
+    <section class="section shop" aria-label="Products" data-edit-section="When the shop is empty">
       <div class="wrap">
         <div class="shop__filters" role="group" aria-label="Filter products" data-live="shop-filters" hidden></div>
         <div class="shop__grid" data-live="shop" hidden></div>
         <div class="shop__empty">
-          <p class="lead">New products are on their way.</p>
-          <p class="body">Ask Melissa which products suit your skin at your next appointment, or browse her Amazon favorites in the meantime.</p>
+          <p class="lead" data-edit="shop.empty.heading">New products are on their way.</p>
+          <p class="body" data-edit="shop.empty.text">Ask Melissa which products suit your skin at your next appointment, or browse her Amazon favorites in the meantime.</p>
           <a class="link-arrow" href="https://www.amazon.com/gp/profile/amzn1.account.AG4PQDUS6YXJBGA246PTV4RUSUZA" target="_blank" rel="noopener">Amazon Favorites <span class="arr">→</span></a>
         </div>
       </div>
     </section>
 
-    <section class="section shop-how tone-sand has-ripple" aria-labelledby="how-title">
+    <section class="section shop-how tone-sand has-ripple" aria-labelledby="how-title" data-edit-section="How to buy">
       <div class="wrap shop-how__grid">
-        <h2 class="h-section shop-how__title" id="how-title" data-split>How to <em>buy.</em></h2>
+        <h2 class="h-section shop-how__title" id="how-title" data-split data-edit="shop.how.heading">How to <em>buy.</em></h2>
         <div class="shop-how__steps">
           <div class="shop-how__step" data-reveal>
-            <h3 class="label">Online</h3>
-            <p>Select Buy Now on a product to order it online.</p>
+            <h3 class="label" data-edit="shop.how.1-title" data-label="Step 1: title">Online</h3>
+            <p data-edit="shop.how.1-text" data-label="Step 1: text">Open a product and select Buy Now to order it online.</p>
           </div>
           <div class="shop-how__step" data-reveal data-delay="0.08">
-            <h3 class="label">In the studio</h3>
-            <p>Products marked “Available in the studio” can be purchased at your next appointment.</p>
+            <h3 class="label" data-edit="shop.how.2-title" data-label="Step 2: title">In the studio</h3>
+            <p data-edit="shop.how.2-text" data-label="Step 2: text">Products marked “Available in the studio” can be purchased at your next appointment.</p>
           </div>
           <div class="shop-how__step" data-reveal data-delay="0.16">
-            <h3 class="label">Not sure what to choose?</h3>
-            <p>Melissa can recommend products for your skin during your facial, or message <a href="https://www.instagram.com/skynbymelissa" target="_blank" rel="noopener">@skynbymelissa</a> on Instagram.</p>
+            <h3 class="label" data-edit="shop.how.3-title" data-label="Step 3: title">Not sure what to choose?</h3>
+            <p data-edit="shop.how.3-text" data-label="Step 3: text">Melissa can recommend products for your skin during your facial, or message <a href="https://www.instagram.com/skynbymelissa" target="_blank" rel="noopener">@skynbymelissa</a> on Instagram.</p>
           </div>
         </div>
       </div>
@@ -111,16 +111,16 @@
 
   </main>
 
-  <footer class="site-footer tone-cocoa">
+  <footer class="site-footer tone-cocoa" data-edit-section="Footer">
     <div class="wrap">
       <div class="footer-cta">
-        <h2 class="h-section" data-split>Book your next <em>facial.</em></h2>
+        <h2 class="h-section" data-split data-edit="footer.heading">Book your next <em>facial.</em></h2>
         <a class="btn" data-book href="https://www.vagaro.com/theskynroom1/services" target="_blank" rel="noopener">Book Online</a>
       </div>
       <div class="footer-cols">
         <div>
           <h4 class="label">Appointments</h4>
-          <p>Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
+          <p data-edit="footer.appointments" data-label="Appointments text">Choose your treatment and appointment time on Vagaro. First visit? Book a Signature Custom Facial.</p>
         </div>
         <div>
           <h4 class="label">Explore</h4>
@@ -143,12 +143,12 @@
         </div>
         <div>
           <h4 class="label">The Studio</h4>
-          <p>Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
+          <p data-edit="footer.studio" data-label="The Studio text">Melissa Wohl<br>Esthetician &amp; Founder<br>Est. 2025</p>
         </div>
       </div>
       <div class="footer-mark" aria-hidden="true"><img class="logo-img" loading="lazy" src="assets/img/logo-cream.webp" alt="" width="1600" height="1215"></div>
       <div class="footer-bottom">
-        <span>© 2026 The Skyn Room. All rights reserved.</span>
+        <span data-edit="footer.copyright" data-label="Copyright line">© 2026 The Skyn Room. All rights reserved.</span>
         <a href="#top">Back to top ↑</a>
       </div>
     </div>
